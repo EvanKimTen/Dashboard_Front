@@ -1,9 +1,14 @@
 import './App.css';
-import {useState, useEffect} from 'react'
+import BarComp from './components/BarComp';
 
 const App = () => {
+
+
+
   return (
-    <div>App</div>
+    <div>
+      <BarComp/>
+    </div>
   )
 }
 

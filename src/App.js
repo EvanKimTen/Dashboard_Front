@@ -1,5 +1,6 @@
 import './App.css';
 import BarComp from './components/BarComp';
+import PieComp from './components/PieComp';
 
 const App = () => {
 
@@ -7,7 +8,7 @@ const App = () => {
 
   return (
     <div>
-      <BarComp/>
+      <PieComp/>
     </div>
   )
 }

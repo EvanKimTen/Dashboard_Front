@@ -24,7 +24,7 @@ const BarComp = () => {
 
 
     return (
-        <div className='bar'>
+        <div className='content'>
             <h2>Top Intents</h2>
             <h4>The most popular queries users ask your assistant.</h4>
             <BarChart width={450} height={350} data={barData} layout='vertical' margin={{

@@ -47,47 +47,43 @@ const PieComp = () => {
 
     const COLORS = ['#0088FE', '#FF8042'];
 
+   
     const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, name, percentage }) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
         const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
         const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
 
-
-        const labelStyle = {
-            fontSize: '13px', // Adjust the font size as needed
-            fill: 'white',
-            textAnchor: 'middle',
-        };
-    
         return (
-          <text x={x} y={y} style={labelStyle}>
+        <text x={x} y={y} fontSize="14px" fill="black" textAnchor="middle">
             {percentage}
-          </text>
+        </text>
         );
-      };
-
+    };
     
       return (
-        <div>
-          <PieChart width={400} height={400}>
-            <Pie
-              dataKey="value"
-              isAnimationActive={false}
-              data={pieData}
-              cx="50%"
-              cy="50%"
-              outerRadius={100}
-              fill="#8884d8"
-              label={renderCustomLabel}
-              labelLine={false}
-            >
-              {pieData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip  />
-            <Legend />
-          </PieChart>
+        <div className='content'>
+            <h2>Recognition rate</h2>
+            <h4>The % of messages understood by your assistant.</h4>
+            <PieChart width={300} height={300}>
+                <Pie
+                dataKey="value"
+                isAnimationActive={false}
+                data={pieData}
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                innerRadius={40}
+                fill="#8884d8"
+                label={renderCustomLabel}
+                labelLine={false}
+                >
+                {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+            </PieChart>
         </div>
       );
 }

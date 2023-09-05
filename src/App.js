@@ -8,6 +8,7 @@ const App = () => {
 
   return (
     <div>
+      <BarComp/>
       <PieComp/>
     </div>
   )

@@ -3,12 +3,11 @@
     grid-template-columns: repeat(3, 1fr); 
     grid-template-rows: 1fr 1fr; /* Two rows with equal height */
     height: 100vh; /* Set the grid container height to 100% of the viewport height */
-  }
-  
+}
 .content{
     /* Style for grid items */
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 10px 20px;
 }
 #interactions{
     grid-column-start: 1;

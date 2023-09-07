@@ -5,6 +5,17 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const Interactions = () => {
     const [data, setData] = useState([]);
     const [totalCount, setTotalCount] = useState(0);
+    const [selectedTimeframe, setSelectedTimeframe] = useState('last7Days');
+
+    const handleTimeframeChange = (event) => {
+      setSelectedTimeframe(event.target.value);
+    };
+
+    const timeframeOptions = [
+      { label: 'Last 7 Days', value: 'last7Days' },
+      { label: 'Last 30 Days', value: 'last30Days' },
+      // Add more options as needed
+    ];
 
     const fetchDataForDate = async (date) => {
       try {
@@ -26,12 +37,19 @@ const Interactions = () => {
       }
     };
     
-    const fetchWeeklyData = async () => {
+    const fetchWeeklyData = async (timeframe) => {
       try {
         // Calculate the date range for the last seven days
-        const endDate = new Date();
-        const startDate = new Date();
-        startDate.setDate(endDate.getDate() - 6); // Go back seven days
+        let startDate, endDate;
+        if (timeframe === 'last7Days') {
+          endDate = new Date();
+          startDate = new Date();
+          startDate.setDate(endDate.getDate() - 6);
+        } else if (timeframe === 'last30Days') {
+          endDate = new Date();
+          startDate = new Date();
+          startDate.setDate(endDate.getDate() - 29);
+        }
     
         const dateArray = [];
         let currentDate = new Date(startDate);
@@ -64,8 +82,8 @@ const Interactions = () => {
   
   
     useEffect(() => {
-      fetchWeeklyData();
-    }, []);
+      fetchWeeklyData(selectedTimeframe);
+    }, [selectedTimeframe]);
 
     const formatMMDD = (dateStr) => {
       const [year, month, day] = dateStr.split('-');
@@ -77,19 +95,27 @@ const Interactions = () => {
           <h2>Interactions</h2>
           <h4>Total number of engagements users have had with your assistant.</h4>
           <h1>{totalCount}</h1>
+          <label>Select Timeframe: </label>
+          <select value={selectedTimeframe} onChange={handleTimeframeChange}>
+            {timeframeOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
             <AreaChart
             width={700}
             height={250}
             data={data}
             margin={{
               top: 15,
-              right: 45,
+              right:20,
               left: 0,
               bottom: 0,
             }}
             >
               <CartesianGrid strokeDasharray="5" vertical={false}/>
-              <XAxis dataKey="date" interval={0} tickFormatter={formatMMDD} />
+              <XAxis dataKey="date" interval={selectedTimeframe === 'last30Days' ? 10 : 0} tickFormatter={formatMMDD} />
               <YAxis />
               <Tooltip />
               <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8" activeDot={{ r: 8 }} />

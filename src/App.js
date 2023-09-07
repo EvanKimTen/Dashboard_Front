@@ -1,6 +1,7 @@
 import './App.css';
-import BarComp from './components/BarComp';
-import PieComp from './components/PieComp';
+import Interactions from './components/Interactions';
+import TopIntents from './components/TopIntents';
+import Understood from './components/Understood';
 
 const App = () => {
 
@@ -8,8 +9,9 @@ const App = () => {
 
   return (
     <div>
-      {/* <BarComp/>
-      <PieComp/> */}
+      <TopIntents/>
+      <Understood/>
+      <Interactions/>
     </div>
   )
 }

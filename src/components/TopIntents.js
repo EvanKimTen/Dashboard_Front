@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 'recharts';
 
-const BarComp = () => {
+const TopIntents = () => {
 
     const [barData, setBarData] = useState([])
     const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
@@ -17,9 +17,9 @@ const BarComp = () => {
       };
     
       
-      useEffect(() => {
-        getData();
-      }, []);
+    useEffect(() => {
+    getData();
+    }, []);
 
 
 
@@ -46,4 +46,4 @@ const BarComp = () => {
     )
 }
 
-export default BarComp
+export default TopIntents

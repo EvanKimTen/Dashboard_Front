@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react';
 import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts';
 
-const PieComp = () => {
+const Understood = () => {
     const [pieData, setPieData] = useState([]);
 
     const getData = async () => {
@@ -88,4 +88,4 @@ const PieComp = () => {
       );
 }
 
-export default PieComp
+export default Understood

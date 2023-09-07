@@ -61,7 +61,6 @@ const Interactions = () => {
         console.error(error);
       }
     };
-    
   
   
     useEffect(() => {
@@ -75,23 +74,26 @@ const Interactions = () => {
 
     return (
         <div className='content'>
+          <h2>Interactions</h2>
+          <h4>Total number of engagements users have had with your assistant.</h4>
+          <h1>{totalCount}</h1>
           <LineChart
-          width={800}
+          width={700}
           height={300}
           data={lineData}
           margin={{
-            top: 5,
+            top: 15,
             right: 45,
-            left: 20,
-            bottom: 5,
+            left: 0,
+            bottom: 0,
           }}
-        >
-          <CartesianGrid strokeDasharray="5" />
-          <XAxis dataKey="date" interval={0} tickFormatter={formatMMDD} />
-          <YAxis />
-          <Tooltip />
-          <Line type="monotone" dataKey="count" stroke="#8884d8" activeDot={{ r: 8 }} />
-        </LineChart>
+          >
+            <CartesianGrid strokeDasharray="5" vertical={false}/>
+            <XAxis dataKey="date" interval={0} tickFormatter={formatMMDD} />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="count" stroke="#8884d8" activeDot={{ r: 8 }} />
+          </LineChart>
         </div>
     )
 }

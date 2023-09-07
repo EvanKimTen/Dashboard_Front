@@ -18,7 +18,7 @@ const TopIntents = () => {
     
       
     useEffect(() => {
-    getData();
+      getData();
     }, []);
 
 

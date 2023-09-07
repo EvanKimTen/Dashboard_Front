@@ -5,12 +5,10 @@ import Understood from './components/Understood';
 
 const App = () => {
 
-
-
   return (
     <div>
-      <TopIntents/>
-      <Understood/>
+      {/* <TopIntents/>
+      <Understood/> */}
       <Interactions/>
     </div>
   )

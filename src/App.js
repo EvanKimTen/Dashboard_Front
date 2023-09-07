@@ -8,12 +8,12 @@ import Users from './components/Users';
 const App = () => {
 
   return (
-    <div>
-      <TopIntents/>
-      <Understood/>
+    <div id='container'>
       <Interactions/>
+      <Understood/>
       <Users/>
       <Sessions/>
+      <TopIntents/>
     </div>
   )
 }

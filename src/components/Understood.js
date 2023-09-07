@@ -61,7 +61,7 @@ const Understood = () => {
     };
     
       return (
-        <div className='content'>
+        <div className='content' id='recognition'>
             <h2>Recognition rate</h2>
             <h4>The % of messages understood by your assistant.</h4>
             <PieChart width={300} height={300}>

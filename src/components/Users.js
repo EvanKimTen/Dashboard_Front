@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react';
-import { CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 const Users = () => {
-    const [lineData, setLineData] = useState([]);
+    const [data, setData] = useState([]);
     const [totalCount, setTotalCount] = useState(0);
 
     const fetchDataForDate = async (date) => {
@@ -55,7 +55,7 @@ const Users = () => {
         }));
     
         // Set the data for the line chart and store the total count
-        setLineData(weeklyData);
+        setData(weeklyData);
         setTotalCount(totalWeekCount); // You can use state to store the total count
       } catch (error) {
         console.error(error);
@@ -73,14 +73,14 @@ const Users = () => {
     };
 
     return (
-        <div className='content'>
+        <div className='content' id='users'>
           <h2>Users</h2>
-          <h4>Total number of engagements users have had with your assistant.</h4>
+          <h4>Unique user sessions with your assistant.</h4>
           <h1>{totalCount}</h1>
-          <LineChart
-          width={700}
-          height={300}
-          data={lineData}
+          <AreaChart
+          width={420}
+          height={150}
+          data={data}
           margin={{
             top: 15,
             right: 45,
@@ -88,12 +88,11 @@ const Users = () => {
             bottom: 0,
           }}
           >
-            <CartesianGrid strokeDasharray="5" vertical={false}/>
-            <XAxis dataKey="date" interval={0} tickFormatter={formatMMDD} />
-            <YAxis />
+            <XAxis dataKey="date" interval={0} hide={true}/>
+            <YAxis hide={true}/>
             <Tooltip />
-            <Line type="monotone" dataKey="count" stroke="#8884d8" activeDot={{ r: 8 }} />
-          </LineChart>
+            <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8" activeDot={{ r: 8 }} />
+          </AreaChart>
         </div>
     )
 }

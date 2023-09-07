@@ -24,10 +24,10 @@ const TopIntents = () => {
 
 
     return (
-        <div className='content'>
+        <div className='content' id='intents'>
             <h2>Top Intents</h2>
             <h4>The most popular queries users ask your assistant.</h4>
-            <BarChart width={450} height={350} data={barData} layout='vertical' margin={{
+            <BarChart width={450} height={250} data={barData} layout='vertical' margin={{
             top: 30,
             right: 30,
             bottom: 30,

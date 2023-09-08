@@ -2,17 +2,23 @@ import axios from 'axios'
 import { useState, useEffect } from 'react';
 import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts';
 
-const Understood = () => {
+const Understood = ( {selectedTimeframe} ) => {
     const [pieData, setPieData] = useState([]);
 
-    const getData = async () => {
+    const getData = async (startDate, endDate) => {
         try {
-          await axios.post('http://localhost:5001/api/proxy/understood_messages',)
-          .then(response => {
-            const formattedResult = formatResponse(response.data.result);
-            setPieData(formattedResult);
-            console.log(formattedResult);
-          })
+          const response = await axios.post('http://localhost:5001/api/proxy/understood_messages', {
+            query: [
+              {
+                filter: {
+                  startTime: `${startDate}T00:00:00.000Z`,
+                  endTime: `${endDate}T23:59:59.999Z`,
+                },
+              },
+            ],
+          });
+          const formattedResult = formatResponse(response.data.result);
+          setPieData(formattedResult);
         } catch (error) {
           console.error(error);
         }
@@ -41,9 +47,25 @@ const Understood = () => {
     };
     
       
+    const setDate = async (timeframe) => {
+      let startDate, endDate;
+      if (timeframe === 'last7Days') {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 6);
+      } else if (timeframe === 'last30Days') {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 29);
+      }
+      const formattedStartDate = startDate.toISOString().split('T')[0];
+      const formattedEndDate = endDate.toISOString().split('T')[0];
+      getData(formattedStartDate, formattedEndDate)
+    }
+    
     useEffect(() => {
-        getData();
-    }, []);
+      setDate(selectedTimeframe);
+    }, [selectedTimeframe]);
 
     const COLORS = ['#0088FE', '#FF8042'];
 
@@ -67,7 +89,7 @@ const Understood = () => {
             <PieChart width={300} height={300}>
                 <Pie
                 dataKey="value"
-                isAnimationActive={false}
+                isAnimationActive={true}
                 data={pieData}
                 cx="50%"
                 cy="50%"

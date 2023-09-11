@@ -105,15 +105,15 @@ const Analytics = () => {
 
   return (
     <>
-      <label>Select Timeframe: </label>
-      <select value={selectedTimeframe} onChange={handleTimeframeChange}>
-        {timeframeOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
       <Box m="20px">
+        <label>Select Timeframe: </label>
+        <select value={selectedTimeframe} onChange={handleTimeframeChange}>
+          {timeframeOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       <Box
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
@@ -124,68 +124,70 @@ const Analytics = () => {
         {/* ROW 2 */}
         <Box
           gridColumn="span 8"
-          gridRow="span 2"
-          backgroundColor="#FFFFFF"
+          gridRow="span 3"
+          display="flex"
+          flexDirection="column"
         >
-          <Box height="250px" m="-20px 0 0 0">
+            <h2>Interactions</h2>
+            <h4>Total number of engagements users have had with your assistant.</h4>
+            <h1>{totalInteractionsCount}</h1>
             <Interactions
-            totalCount={totalInteractionsCount}
             data={interactionsData}
             fetchWeeklyData={fetchWeeklyData}
             selectedTimeframe={selectedTimeframe}
             />
-          </Box>
         </Box>
         <Box
           gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor="#FFFFFF"
+          gridRow="span 3"
+          display="flex"
+          flexDirection="column"
         >
-          <Box height="250px" m="-20px 0 0 0">
+            <h2>Recognition rate</h2>
+            <h4>The % of messages understood by your assistant.</h4>
             <Understood selectedTimeframe={selectedTimeframe} />
-          </Box>
         </Box>
 
         {/* ROW 3 */}
         <Box
           gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor="#FFFFFF"
-          p="30px"
+          gridRow="span 3"
+          display="flex"
+          flexDirection="column"
         >
-          <Box height="250px" m="-20px 0 0 0"
-          >
+            <h2>Users</h2>
+            <h4>Unique user sessions with your assistant.</h4>
+            <h1>{totalUsersCount}</h1>
             <Users
-              totalCount={totalUsersCount}
               data={usersData}
               fetchWeeklyData={fetchWeeklyData}
               selectedTimeframe={selectedTimeframe}
             />
-          </Box>
         </Box>
         <Box
           gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor="#FFFFFF"
+          gridRow="span 3"
+          display="flex"
+          flexDirection="column"
         >
-          <Box height="250px" mt="-20px">
+              <h2>Sessions</h2>
+              <h4>Unique user sessions with your assistant.</h4>
+              <h1>{totalSessionsCount}</h1>
               <Sessions
-              totalCount={totalSessionsCount}
               data={sessionsData}
               fetchWeeklyData={fetchWeeklyData}
               selectedTimeframe={selectedTimeframe}
             />
-          </Box>
         </Box>
         <Box
           gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor="#FFFFFF"
-          padding="30px"
+          gridRow="span 3"
+          display="flex"
+          flexDirection="column"
         >
-          <Box height="200px">
+            <h2>Top Intents</h2>
+            <h4>The most popular queries users ask your assistant.</h4>
             <TopIntents selectedTimeframe={selectedTimeframe} />
-          </Box>
         </Box>
       </Box>
     </Box>

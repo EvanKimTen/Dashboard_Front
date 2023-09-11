@@ -16,9 +16,6 @@ const Users = ( {totalCount, data, fetchWeeklyData, selectedTimeframe} ) => {
 
     return (
         <div className='content' id='users'>
-          {/* <h2>Users</h2>
-          <h4>Unique user sessions with your assistant.</h4>
-          <h1>{totalCount}</h1> */}
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
             width={420}

@@ -1,19 +1,1 @@
-/* #container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    grid-template-rows: 1fr 1fr; 
-    height: 100vh; 
-}
-.content{
-    border: 1px solid #ccc;
-    padding: 10px 20px;
-}
-#interactions{
-    grid-column-start: 1;
-    grid-column-end: 3;
-}
-#recognition{
-    grid-column-start: 3;
-    grid-column-end: 4;
-} */
 

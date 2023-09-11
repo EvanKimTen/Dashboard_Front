@@ -28,20 +28,17 @@ const SidebarComp = () => {
   return (
     <Box
       sx={{
-        "& .pro-sidebar-inner": {
-          background: "#1F2A40 !important",
+        "& .ps-sidebar-root": {
+          height:"100vh"
         },
-        "& .pro-icon-wrapper": {
+        "& .ps-sidebar-container": {
           backgroundColor: "transparent !important",
         },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
+        "& .ps-menuitem-root:hover": {
+          color: "#5560b5",
         },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#6870fa !important",
+        "& .ps-active": {
+          color: "#5560b5",
         },
       }}
     >
@@ -71,7 +68,7 @@ const SidebarComp = () => {
           </MenuItem>
 
 
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          <Box marginLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Analytics"
               to="/"

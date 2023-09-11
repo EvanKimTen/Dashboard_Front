@@ -16,13 +16,8 @@ const Interactions = ( {totalCount, data, fetchWeeklyData, selectedTimeframe} ) 
 
     return (
         <div className='content' id='interactions'>
-          {/* <h2>Interactions</h2>
-          <h4>Total number of engagements users have had with your assistant.</h4>
-          <h1>{totalCount}</h1> */}
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-              width={700}
-              height={250}
               data={data}
               margin={{
                 top: 15,

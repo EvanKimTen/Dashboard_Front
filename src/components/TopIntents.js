@@ -50,14 +50,12 @@ const TopIntents = ( {selectedTimeframe} ) => {
 
     return (
         <div className='content' id='intents'>
-            {/* <h2>Top Intents</h2>
-            <h4>The most popular queries users ask your assistant.</h4> */}
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart width={480} height={250} data={barData} layout='vertical' margin={{
+              <BarChart width={500} height={250} data={barData} layout='vertical' margin={{
               top: 30,
               right: 30,
               bottom: 30,
-              left: 55,
+              left: 77,
             }}>
                   <XAxis type='number' hide={true}/>
                   <YAxis dataKey="name" type="category" hide={false}/>

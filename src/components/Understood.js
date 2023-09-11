@@ -84,8 +84,6 @@ const Understood = ( {selectedTimeframe} ) => {
     
       return (
         <div className='content' id='recognition'>
-            {/* <h2>Recognition rate</h2>
-            <h4>The % of messages understood by your assistant.</h4> */}
             <ResponsiveContainer width="100%" height="100%">
               <PieChart width={300} height={300}>
                   <Pie

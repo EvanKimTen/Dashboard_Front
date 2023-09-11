@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react';
-import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts';
+import { Cell, Legend, Pie, PieChart, Tooltip, ResponsiveContainer } from 'recharts';
 
 const Understood = ( {selectedTimeframe} ) => {
     const [pieData, setPieData] = useState([]);
@@ -84,28 +84,30 @@ const Understood = ( {selectedTimeframe} ) => {
     
       return (
         <div className='content' id='recognition'>
-            <h2>Recognition rate</h2>
-            <h4>The % of messages understood by your assistant.</h4>
-            <PieChart width={300} height={300}>
-                <Pie
-                dataKey="value"
-                isAnimationActive={true}
-                data={pieData}
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                innerRadius={40}
-                fill="#8884d8"
-                label={renderCustomLabel}
-                labelLine={false}
-                >
-                {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-            </PieChart>
+            {/* <h2>Recognition rate</h2>
+            <h4>The % of messages understood by your assistant.</h4> */}
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart width={300} height={300}>
+                  <Pie
+                  dataKey="value"
+                  isAnimationActive={true}
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={100}
+                  innerRadius={40}
+                  fill="#8884d8"
+                  label={renderCustomLabel}
+                  labelLine={false}
+                  >
+                  {pieData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+              </PieChart>
+            </ResponsiveContainer>
         </div>
       );
 }

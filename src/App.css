@@ -1,11 +1,10 @@
-#container {
+/* #container {
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
-    grid-template-rows: 1fr 1fr; /* Two rows with equal height */
-    height: 100vh; /* Set the grid container height to 100% of the viewport height */
+    grid-template-rows: 1fr 1fr; 
+    height: 100vh; 
 }
 .content{
-    /* Style for grid items */
     border: 1px solid #ccc;
     padding: 10px 20px;
 }
@@ -16,5 +15,5 @@
 #recognition{
     grid-column-start: 3;
     grid-column-end: 4;
-}
+} */
 

@@ -10,7 +10,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           {/*public routes*/}
-          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/" element={<Analytics />} />
           <Route path="/knowledge-base" element={<KnowledgeBase />} />
 
           {/*protected routes*/}

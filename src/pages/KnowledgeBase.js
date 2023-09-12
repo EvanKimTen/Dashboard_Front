@@ -1,8 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { LuSearch, LuSettings2 } from "react-icons/lu";
-import { width } from "@mui/system";
+import {
+  Button,
+  Menu,
+  MenuItem,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import TuneIcon from "@mui/icons-material/Tune";
+import EnhancedTable from "../components/EnhancedTable";
+import { async } from "q";
 
 const proxy = axios.create({
   baseURL: "http://localhost:5001/proxy/knowledge-base",
@@ -10,16 +23,45 @@ const proxy = axios.create({
 
 const KnowledgeBase = () => {
   const [documents, setDocuments] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [input, setInput] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
 
-  useEffect(() => {
-    getDocuments();
-  }, []);
+  const open = Boolean(anchorEl);
 
-  const getDocuments = async () => {
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    setOpenDialog(false);
+  };
+
+  //   useEffect(() => {
+  //     getDocuments();
+  //   }, []);
+
+  //   const getDocuments = async () => {
+  //     try {
+  //       const response = await proxy.get("/");
+  //       setDocuments(response.data.data);
+  //       console.log(response.data.data);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+
+  const handleUrlClick = () => {
+    setOpenDialog(true);
+  };
+
+  const handleUrlUpload = async () => {
     try {
-      const response = await proxy.get("/");
-      setDocuments(response.data.data);
-      console.log(response.data.data);
+      const response = await proxy.post("/", {
+        url: input,
+      });
+      handleClose();
+      console.log(response);
     } catch (err) {
       console.error(err);
     }
@@ -29,72 +71,77 @@ const KnowledgeBase = () => {
     <div>
       <TopBar>
         <SearchBar>
-          <LuSearch />
+          <SearchIcon />
           <input type="text" placeholder="Search for documents"></input>
         </SearchBar>
         <Buttons>
-          <button type="button" class="btn btn-light">
-            <LuSettings2 />
-          </button>
-          <button type="button" class="btn btn-light">
-            AI Preview
-          </button>
-          <button type="button" class="btn btn-primary ">
+          <Button variant="outlined">
+            <TuneIcon />
+          </Button>
+          <Button variant="outlined">AI Preview</Button>
+          <Button
+            variant="contained"
+            id="basic-button"
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+          >
             Add Data Source
-          </button>
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+            sx={{
+              width: 300,
+            }}
+          >
+            <MenuItem onClick={handleUrlClick}>URL(s)</MenuItem>
+            <MenuItem onClick={handleClose}>Sitemap</MenuItem>
+            <MenuItem onClick={handleClose}>Text</MenuItem>
+            <MenuItem onClick={handleClose}>PDF</MenuItem>
+            <MenuItem onClick={handleClose}>DOC</MenuItem>
+          </Menu>
         </Buttons>
       </TopBar>
       <Content>
-        <ul>
-          <ListItem>
-            <button></button>
-            <li style={{ width: "28.3rem" }}>Name</li>
-            <a style={{ width: "1.3rem" }}>Type</a>
-            <a style={{ width: "3.8rem" }}>Status</a>
-            <a>Date</a>
-          </ListItem>
-          {documents.length === 0 && <h3>No documents</h3>}
-          {documents.map((document) => {
-            return (
-              <ListItem key={document.documentID}>
-                <button></button>
-                <li>{document.data.name.substring(0, 48)}...</li>
-                <a>{document.data.type}</a>
-                <a>{document.status.type}</a>
-                <a>{document.updatedAt}</a>
-              </ListItem>
-            );
-          })}
-        </ul>
+        <EnhancedTable />
       </Content>
+      <Dialog fullWidth maxWidth="sm" open={openDialog} onClose={handleClose}>
+        <DialogTitle>Add URL</DialogTitle>
+        <DialogContent>
+          <TextField
+            type="url"
+            id="name"
+            label="URL"
+            placeholder="https://example.com/about"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            autoFocus
+            margin="dense"
+            fullWidth
+            variant="outlined"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button variant="contained" onClick={handleUrlUpload}>
+            Upload
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
 
 const Content = styled.div`
-  height: 40rem; /*..very important if you want scroll bar...*/
+  max-height: 40rem; /*..very important if you want scroll bar...*/
   overflow: auto; /*..will introduce scroll bar when needed..*/
-`;
-
-const ListItem = styled.div`
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  gap: 2.5rem;
-  border-bottom: 1px solid #ceddea;
-  padding: 1rem;
-
-  button {
-    background-color: white;
-    border: 2px solid #b7c4d0;
-    border-radius: 0.2rem;
-    width: 1rem;
-    height: 1rem;
-  }
-
-  li {
-    list-style-type: none;
-  }
 `;
 
 const TopBar = styled.div`
@@ -103,8 +150,6 @@ const TopBar = styled.div`
   align-items: center;
   border-bottom: 1px solid #ceddea;
   padding: 1rem;
-  overflow: hidden;
-
   button {
     border: 1px solid #b7c4d0;
   }
@@ -114,10 +159,9 @@ const SearchBar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 1.8rem;
   svg {
     color: #b7c4d0;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
   }
   input {
     margin-left: 0.6rem;

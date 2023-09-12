@@ -27,11 +27,17 @@ const Interactions = ( {data, fetchWeeklyData, selectedTimeframe} ) => {
                 bottom: 0,
               }}
               >
+                <defs>
+                  <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="35%" stopColor="#8884d8" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="5" vertical={false}/>
                 <XAxis dataKey="date" interval={selectedTimeframe === 'last7Days' ? 0 : 10} tickFormatter={formatMMDD} />
                 <YAxis />
                 <Tooltip />
-                <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8" activeDot={{ r: 8 }} />
+                <Area type="monotone" dataKey="count" stroke="#8884d8" fill="url(#colorGradient)" activeDot={{ r: 8 }} />
               </AreaChart>
           </ResponsiveContainer>
         </div>

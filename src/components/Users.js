@@ -30,7 +30,7 @@ const Users = ( {totalCount, data, fetchWeeklyData, selectedTimeframe} ) => {
               <XAxis dataKey="date" interval={selectedTimeframe === 'last7Days' ? 0 : 10}hide={true}/>
               <YAxis hide={true}/>
               <Tooltip />
-              <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8" activeDot={{ r: 8 }} />
+              <Area type="monotone" dataKey="count" stroke="#4f9561" fill="url(#smallGradient)"activeDot={{ r: 8 }} />
             </AreaChart>
           </ResponsiveContainer>
         </div>

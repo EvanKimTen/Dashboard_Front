@@ -75,7 +75,7 @@ const Understood = ( {selectedTimeframe} ) => {
       setDate(selectedTimeframe);
     }, [selectedTimeframe]);
 
-    const COLORS = ['#0088FE', '#FF8042'];
+    const COLORS = ['#e37575', '#84d899'];
 
    
     const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, name, percentage }) => {

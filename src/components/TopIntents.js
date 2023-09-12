@@ -5,8 +5,8 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ResponsiveContainer } from 
 const TopIntents = ( {selectedTimeframe} ) => {
 
     const [barData, setBarData] = useState([])
-    const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
-
+    const colors = ['#84d899', '#8884d8', '#e37575', '#A0C1D1', '#5A7D7C'];
+    
     const getData = async (startDate, endDate) => {
         try {
           const response = await axios.post(`http://localhost:5001/api/proxy/top_intents`, {

@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -11,14 +11,16 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
-    <MenuItem
-      active={selected === title}
-      onClick={() => setSelected(title)}
-      icon={icon}
-      component={<Link to={to} />}
-    >
-      <Typography>{title}</Typography>
-    </MenuItem>
+    <Tooltip title={title} arrow placement="right">
+      <MenuItem
+        active={selected === title}
+        onClick={() => setSelected(title)}
+        icon={icon}
+        component={<Link to={to} />}
+      >
+        <Typography>{title}</Typography>
+      </MenuItem>
+    </Tooltip>
   );
 };
 

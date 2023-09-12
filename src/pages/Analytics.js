@@ -1,6 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import Interactions from "../components/Interactions";
 import Sessions from "../components/Sessions";
@@ -24,6 +28,8 @@ const Analytics = () => {
   const timeframeOptions = [
     { label: "Last 7 Days", value: "last7Days" },
     { label: "Last 30 Days", value: "last30Days" },
+    { label: "Last 60 Days", value: "last60Days" },
+    { label: "Last 90 Days", value: "last90Days" },
     // Add more options as needed
   ];
 
@@ -62,6 +68,14 @@ const Analytics = () => {
         endDate = new Date();
         startDate = new Date();
         startDate.setDate(endDate.getDate() - 29);
+      }else if (timeframe === "last60Days") {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 59);
+      }else if (timeframe === "last90Days") {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 89);
       }
 
       const dateArray = [];
@@ -105,113 +119,118 @@ const Analytics = () => {
 
   return (
     <>
-      <label>Select Timeframe: </label>
-      <select value={selectedTimeframe} onChange={handleTimeframeChange}>
-        {timeframeOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <Box m="20px">
+      <Box mt="20px" >
+        <Box sx={{ 
+          width: 150,
+          m: 2,
+          }}
+        >
+          <FormControl fullWidth sx={{ 
+          bgcolor: 'white',
+          }}>
+            <InputLabel >Period</InputLabel>
+            <Select
+              value={selectedTimeframe}
+              label="Period"
+              onChange={handleTimeframeChange}
+            >
+              {timeframeOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
       <Box
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
-        gap="20px"
+        gridAutoRows="175px"
+        bgcolor="white"
+        mt="15px"
       >
 
         {/* ROW 2 */}
         <Box
           gridColumn="span 8"
-          gridRow="span 2"
-          backgroundColor="#FFFFFF"
+          gridRow="span 3"
+          display="flex"
+          flexDirection="column"
+          p="30px 25px"
+          sx={{ border: "0.5px solid grey"}}
         >
-          <Box height="250px" m="-20px 0 0 0">
+            <p className="chart-title">Interactions</p>
+            <p className="chart-description">Total number of engagements users have had with your assistant.</p>
+            <h1>{totalInteractionsCount}</h1>
             <Interactions
-            totalCount={totalInteractionsCount}
             data={interactionsData}
             fetchWeeklyData={fetchWeeklyData}
             selectedTimeframe={selectedTimeframe}
             />
-          </Box>
         </Box>
         <Box
           gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor="#FFFFFF"
+          gridRow="span 3"
+          display="flex"
+          flexDirection="column"
+          p="30px 25px"
+          sx={{ border: "0.5px solid grey"}}
+
         >
-          <Box height="250px" m="-20px 0 0 0">
+            <p className="chart-title">Recognition rate</p>
+            <p className="chart-description">The % of messages understood by your assistant.</p>
             <Understood selectedTimeframe={selectedTimeframe} />
-          </Box>
         </Box>
 
         {/* ROW 3 */}
         <Box
           gridColumn="span 4"
           gridRow="span 2"
-          backgroundColor="#FFFFFF"
-          p="30px"
+          display="flex"
+          flexDirection="column"
+          p="30px 25px"
+          sx={{ border: "0.5px solid grey"}}
         >
-          <Box height="250px" m="-20px 0 0 0"
-          >
+            <p className="chart-title">Users</p>
+            <p className="chart-description">Unique user sessions with your assistant.</p>
+            <h1>{totalUsersCount}</h1>
             <Users
-              totalCount={totalUsersCount}
               data={usersData}
               fetchWeeklyData={fetchWeeklyData}
               selectedTimeframe={selectedTimeframe}
             />
-          </Box>
         </Box>
         <Box
           gridColumn="span 4"
           gridRow="span 2"
-          backgroundColor="#FFFFFF"
+          display="flex"
+          flexDirection="column"
+          p="30px 25px"
+          sx={{ border: "0.5px solid grey"}}
         >
-          <Box height="250px" mt="-20px">
+              <p className="chart-title">Sessions</p>
+              <p className="chart-description">Unique user sessions with your assistant.</p>
+              <h1>{totalSessionsCount}</h1>
               <Sessions
-              totalCount={totalSessionsCount}
               data={sessionsData}
               fetchWeeklyData={fetchWeeklyData}
               selectedTimeframe={selectedTimeframe}
             />
-          </Box>
         </Box>
         <Box
           gridColumn="span 4"
           gridRow="span 2"
-          backgroundColor="#FFFFFF"
-          padding="30px"
+          display="flex"
+          flexDirection="column"
+          p="30px 25px"
+          sx={{ border: "0.5px solid grey"}}
         >
-          <Box height="200px">
+            <p className="chart-title">Top Intents</p>
+            <p className="chart-description" >The most popular queries users ask your assistant.</p>
             <TopIntents selectedTimeframe={selectedTimeframe} />
-          </Box>
         </Box>
       </Box>
     </Box>
-
-      {/* <div id="container">
-        <Interactions
-          totalCount={totalInteractionsCount}
-          data={interactionsData}
-          fetchWeeklyData={fetchWeeklyData}
-          selectedTimeframe={selectedTimeframe}
-        />
-        <Understood selectedTimeframe={selectedTimeframe} />
-        <Users
-          totalCount={totalUsersCount}
-          data={usersData}
-          fetchWeeklyData={fetchWeeklyData}
-          selectedTimeframe={selectedTimeframe}
-        />
-        <Sessions
-          totalCount={totalSessionsCount}
-          data={sessionsData}
-          fetchWeeklyData={fetchWeeklyData}
-          selectedTimeframe={selectedTimeframe}
-        />
-        <TopIntents selectedTimeframe={selectedTimeframe} />
-      </div> */}
     </>
   );
 };

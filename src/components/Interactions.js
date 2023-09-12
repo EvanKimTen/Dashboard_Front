@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const Interactions = ( {totalCount, data, fetchWeeklyData, selectedTimeframe} ) => {
+const Interactions = ( {data, fetchWeeklyData, selectedTimeframe} ) => {
     const endpoint = 'interactions'
 
     const formatMMDD = (dateStr) => {
@@ -16,13 +16,9 @@ const Interactions = ( {totalCount, data, fetchWeeklyData, selectedTimeframe} ) 
 
     return (
         <div className='content' id='interactions'>
-          {/* <h2>Interactions</h2>
-          <h4>Total number of engagements users have had with your assistant.</h4>
-          <h1>{totalCount}</h1> */}
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-              width={700}
-              height={250}
+              height={220}
               data={data}
               margin={{
                 top: 15,
@@ -31,11 +27,17 @@ const Interactions = ( {totalCount, data, fetchWeeklyData, selectedTimeframe} ) 
                 bottom: 0,
               }}
               >
+                <defs>
+                  <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="35%" stopColor="#8884d8" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="5" vertical={false}/>
-                <XAxis dataKey="date" interval={selectedTimeframe === 'last30Days' ? 10 : 0} tickFormatter={formatMMDD} />
+                <XAxis dataKey="date" interval={selectedTimeframe === 'last7Days' ? 0 : 10} tickFormatter={formatMMDD} />
                 <YAxis />
                 <Tooltip />
-                <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8" activeDot={{ r: 8 }} />
+                <Area type="monotone" dataKey="count" stroke="#8884d8" fill="url(#colorGradient)" activeDot={{ r: 8 }} />
               </AreaChart>
           </ResponsiveContainer>
         </div>

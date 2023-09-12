@@ -57,6 +57,14 @@ const Understood = ( {selectedTimeframe} ) => {
         endDate = new Date();
         startDate = new Date();
         startDate.setDate(endDate.getDate() - 29);
+      }else if (timeframe === 'last60Days') {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 59);
+      }else if (timeframe === 'last90Days') {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 89);
       }
       const formattedStartDate = startDate.toISOString().split('T')[0];
       const formattedEndDate = endDate.toISOString().split('T')[0];
@@ -67,7 +75,7 @@ const Understood = ( {selectedTimeframe} ) => {
       setDate(selectedTimeframe);
     }, [selectedTimeframe]);
 
-    const COLORS = ['#0088FE', '#FF8042'];
+    const COLORS = ['#e37575', '#84d899'];
 
    
     const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, name, percentage }) => {
@@ -84,10 +92,8 @@ const Understood = ( {selectedTimeframe} ) => {
     
       return (
         <div className='content' id='recognition'>
-            {/* <h2>Recognition rate</h2>
-            <h4>The % of messages understood by your assistant.</h4> */}
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart width={300} height={300}>
+              <PieChart height={190}>
                   <Pie
                   dataKey="value"
                   isAnimationActive={true}

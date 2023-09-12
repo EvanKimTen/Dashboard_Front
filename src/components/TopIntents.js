@@ -5,8 +5,8 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ResponsiveContainer } from 
 const TopIntents = ( {selectedTimeframe} ) => {
 
     const [barData, setBarData] = useState([])
-    const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
-
+    const colors = ['#84d899', '#8884d8', '#e37575', '#A0C1D1', '#5A7D7C'];
+    
     const getData = async (startDate, endDate) => {
         try {
           const response = await axios.post(`http://localhost:5001/api/proxy/top_intents`, {
@@ -36,6 +36,14 @@ const TopIntents = ( {selectedTimeframe} ) => {
         endDate = new Date();
         startDate = new Date();
         startDate.setDate(endDate.getDate() - 29);
+      }else if (timeframe === 'last60Days') {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 59);
+      }else if (timeframe === 'last90Days') {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 89);
       }
       const formattedStartDate = startDate.toISOString().split('T')[0];
       const formattedEndDate = endDate.toISOString().split('T')[0];
@@ -50,14 +58,12 @@ const TopIntents = ( {selectedTimeframe} ) => {
 
     return (
         <div className='content' id='intents'>
-            {/* <h2>Top Intents</h2>
-            <h4>The most popular queries users ask your assistant.</h4> */}
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart width={480} height={250} data={barData} layout='vertical' margin={{
+              <BarChart height={250} data={barData} layout='vertical' margin={{
               top: 30,
               right: 30,
               bottom: 30,
-              left: 55,
+              left: 77,
             }}>
                   <XAxis type='number' hide={true}/>
                   <YAxis dataKey="name" type="category" hide={false}/>

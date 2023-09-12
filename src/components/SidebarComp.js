@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography } from "@mui/material";
@@ -23,24 +24,24 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 
 const SidebarComp = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
+  const [selected, setSelected] = useState("Analytics");
 
   return (
     <Box
-      sx={{
-        "& .ps-sidebar-root": {
-          height:"100vh"
-        },
-        "& .ps-sidebar-container": {
-          backgroundColor: "transparent !important",
-        },
-        "& .ps-menuitem-root:hover": {
-          color: "#5560b5",
-        },
-        "& .ps-active": {
-          color: "#5560b5",
-        },
-      }}
+    sx={{
+          "& .ps-sidebar-root": {
+            height:"100vh"
+          },
+          "& .ps-sidebar-container": {
+            backgroundColor: "#FFFFFF !important",
+          },
+          "& .ps-menuitem-root:hover": {
+            color: "#5560b5",
+          },
+          "& .ps-active": {
+            color: "#5560b5",
+          },
+        }}
     >
       <Sidebar collapsed={isCollapsed}>
         <Menu iconShape="square">
@@ -68,7 +69,7 @@ const SidebarComp = () => {
           </MenuItem>
 
 
-          <Box marginLeft={isCollapsed ? undefined : "10%"}>
+          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Analytics"
               to="/"

@@ -18,8 +18,7 @@ const Sessions = ( {totalCount, data, fetchWeeklyData, selectedTimeframe} ) => {
         <div className='content' id='users'>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-            width={420}
-            height={150}
+            height={100}
             data={data}
             margin={{
               top: 15,

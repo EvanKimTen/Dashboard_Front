@@ -51,7 +51,7 @@ const TopIntents = ( {selectedTimeframe} ) => {
     return (
         <div className='content' id='intents'>
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart width={500} height={250} data={barData} layout='vertical' margin={{
+              <BarChart height={150} data={barData} layout='vertical' margin={{
               top: 30,
               right: 30,
               bottom: 30,

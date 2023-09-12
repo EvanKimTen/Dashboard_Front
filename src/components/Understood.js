@@ -85,7 +85,7 @@ const Understood = ( {selectedTimeframe} ) => {
       return (
         <div className='content' id='recognition'>
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart width={300} height={300}>
+              <PieChart height={190}>
                   <Pie
                   dataKey="value"
                   isAnimationActive={true}

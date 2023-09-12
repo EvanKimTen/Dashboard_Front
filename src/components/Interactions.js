@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const Interactions = ( {totalCount, data, fetchWeeklyData, selectedTimeframe} ) => {
+const Interactions = ( {data, fetchWeeklyData, selectedTimeframe} ) => {
     const endpoint = 'interactions'
 
     const formatMMDD = (dateStr) => {
@@ -18,6 +18,7 @@ const Interactions = ( {totalCount, data, fetchWeeklyData, selectedTimeframe} ) 
         <div className='content' id='interactions'>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
+              height={220}
               data={data}
               margin={{
                 top: 15,

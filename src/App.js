@@ -10,14 +10,13 @@ import { CssBaseline } from "@mui/material";
 
 
 const App = () => {
-  const [isSidebar, setIsSidebar] = useState(true);
 
   return (
     <>
     <CssBaseline />
     <div className="App">
-      <SidebarComp isSidebar={isSidebar} />
-      <main className="content">
+      <SidebarComp />
+      <main className="content whole">
         <Routes>
           {/*public routes*/}
           <Route path="/" element={<Analytics />} />

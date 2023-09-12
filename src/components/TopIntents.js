@@ -36,6 +36,14 @@ const TopIntents = ( {selectedTimeframe} ) => {
         endDate = new Date();
         startDate = new Date();
         startDate.setDate(endDate.getDate() - 29);
+      }else if (timeframe === 'last60Days') {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 59);
+      }else if (timeframe === 'last90Days') {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 89);
       }
       const formattedStartDate = startDate.toISOString().split('T')[0];
       const formattedEndDate = endDate.toISOString().split('T')[0];
@@ -51,7 +59,7 @@ const TopIntents = ( {selectedTimeframe} ) => {
     return (
         <div className='content' id='intents'>
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart height={150} data={barData} layout='vertical' margin={{
+              <BarChart height={250} data={barData} layout='vertical' margin={{
               top: 30,
               right: 30,
               bottom: 30,

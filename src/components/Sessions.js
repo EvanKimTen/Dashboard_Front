@@ -27,7 +27,7 @@ const Sessions = ( {totalCount, data, fetchWeeklyData, selectedTimeframe} ) => {
               bottom: 0,
             }}
             >
-              <XAxis dataKey="date" interval={selectedTimeframe === 'last30Days' ? 10 : 0} hide={true}/>
+              <XAxis dataKey="date" interval={selectedTimeframe === 'last7Days' ? 0 : 10} hide={true}/>
               <YAxis hide={true}/>
               <Tooltip />
               <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8" activeDot={{ r: 8 }} />

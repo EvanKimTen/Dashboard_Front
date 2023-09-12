@@ -1,6 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import { Box } from "@mui/material";
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import Interactions from "../components/Interactions";
 import Sessions from "../components/Sessions";
@@ -24,6 +28,8 @@ const Analytics = () => {
   const timeframeOptions = [
     { label: "Last 7 Days", value: "last7Days" },
     { label: "Last 30 Days", value: "last30Days" },
+    { label: "Last 60 Days", value: "last60Days" },
+    { label: "Last 90 Days", value: "last90Days" },
     // Add more options as needed
   ];
 
@@ -62,6 +68,14 @@ const Analytics = () => {
         endDate = new Date();
         startDate = new Date();
         startDate.setDate(endDate.getDate() - 29);
+      }else if (timeframe === "last60Days") {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 59);
+      }else if (timeframe === "last90Days") {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 89);
       }
 
       const dateArray = [];
@@ -106,18 +120,32 @@ const Analytics = () => {
   return (
     <>
       <Box mt="20px" >
-        <label>Select Timeframe: </label>
-        <select value={selectedTimeframe} onChange={handleTimeframeChange}>
-          {timeframeOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <Box sx={{ 
+          width: 150,
+          m: 2,
+          }}
+        >
+          <FormControl fullWidth sx={{ 
+          bgcolor: 'white',
+          }}>
+            <InputLabel >Period</InputLabel>
+            <Select
+              value={selectedTimeframe}
+              label="Period"
+              onChange={handleTimeframeChange}
+            >
+              {timeframeOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
       <Box
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="165px"
+        gridAutoRows="175px"
         bgcolor="white"
         mt="15px"
       >

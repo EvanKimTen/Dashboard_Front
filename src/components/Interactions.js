@@ -28,7 +28,7 @@ const Interactions = ( {data, fetchWeeklyData, selectedTimeframe} ) => {
               }}
               >
                 <CartesianGrid strokeDasharray="5" vertical={false}/>
-                <XAxis dataKey="date" interval={selectedTimeframe === 'last30Days' ? 10 : 0} tickFormatter={formatMMDD} />
+                <XAxis dataKey="date" interval={selectedTimeframe === 'last7Days' ? 0 : 10} tickFormatter={formatMMDD} />
                 <YAxis />
                 <Tooltip />
                 <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8" activeDot={{ r: 8 }} />

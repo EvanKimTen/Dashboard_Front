@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 
 import Interactions from "../components/Interactions";
 import Sessions from "../components/Sessions";
@@ -112,7 +113,84 @@ const Analytics = () => {
           </option>
         ))}
       </select>
-      <div id="container">
+      <Box m="20px">
+      <Box
+        display="grid"
+        gridTemplateColumns="repeat(12, 1fr)"
+        gridAutoRows="140px"
+        gap="20px"
+      >
+
+        {/* ROW 2 */}
+        <Box
+          gridColumn="span 8"
+          gridRow="span 2"
+          backgroundColor="#FFFFFF"
+        >
+          <Box height="250px" m="-20px 0 0 0">
+            <Interactions
+            totalCount={totalInteractionsCount}
+            data={interactionsData}
+            fetchWeeklyData={fetchWeeklyData}
+            selectedTimeframe={selectedTimeframe}
+            />
+          </Box>
+        </Box>
+        <Box
+          gridColumn="span 4"
+          gridRow="span 2"
+          backgroundColor="#FFFFFF"
+        >
+          <Box height="250px" m="-20px 0 0 0">
+            <Understood selectedTimeframe={selectedTimeframe} />
+          </Box>
+        </Box>
+
+        {/* ROW 3 */}
+        <Box
+          gridColumn="span 4"
+          gridRow="span 2"
+          backgroundColor="#FFFFFF"
+          p="30px"
+        >
+          <Box height="250px" m="-20px 0 0 0"
+          >
+            <Users
+              totalCount={totalUsersCount}
+              data={usersData}
+              fetchWeeklyData={fetchWeeklyData}
+              selectedTimeframe={selectedTimeframe}
+            />
+          </Box>
+        </Box>
+        <Box
+          gridColumn="span 4"
+          gridRow="span 2"
+          backgroundColor="#FFFFFF"
+        >
+          <Box height="250px" mt="-20px">
+              <Sessions
+              totalCount={totalSessionsCount}
+              data={sessionsData}
+              fetchWeeklyData={fetchWeeklyData}
+              selectedTimeframe={selectedTimeframe}
+            />
+          </Box>
+        </Box>
+        <Box
+          gridColumn="span 4"
+          gridRow="span 2"
+          backgroundColor="#FFFFFF"
+          padding="30px"
+        >
+          <Box height="200px">
+            <TopIntents selectedTimeframe={selectedTimeframe} />
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+
+      {/* <div id="container">
         <Interactions
           totalCount={totalInteractionsCount}
           data={interactionsData}
@@ -133,7 +211,7 @@ const Analytics = () => {
           selectedTimeframe={selectedTimeframe}
         />
         <TopIntents selectedTimeframe={selectedTimeframe} />
-      </div>
+      </div> */}
     </>
   );
 };

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ResponsiveContainer } from 'recharts';
 
 const TopIntents = ( {selectedTimeframe} ) => {
 
@@ -50,23 +50,25 @@ const TopIntents = ( {selectedTimeframe} ) => {
 
     return (
         <div className='content' id='intents'>
-            <h2>Top Intents</h2>
-            <h4>The most popular queries users ask your assistant.</h4>
-            <BarChart width={480} height={250} data={barData} layout='vertical' margin={{
-            top: 30,
-            right: 30,
-            bottom: 30,
-            left: 55,
-          }}>
-                <XAxis type='number' hide={true}/>
-                <YAxis dataKey="name" type="category" hide={false}/>
-                <Tooltip />
-                <Bar dataKey="count" barSize={20} label={{ fontSize: 15, position: 'right' }} >
-                    {barData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-                    ))}
-                </Bar>
-            </BarChart>
+            {/* <h2>Top Intents</h2>
+            <h4>The most popular queries users ask your assistant.</h4> */}
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart width={480} height={250} data={barData} layout='vertical' margin={{
+              top: 30,
+              right: 30,
+              bottom: 30,
+              left: 55,
+            }}>
+                  <XAxis type='number' hide={true}/>
+                  <YAxis dataKey="name" type="category" hide={false}/>
+                  <Tooltip />
+                  <Bar dataKey="count" barSize={20} label={{ fontSize: 15, position: 'right' }} >
+                      {barData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                      ))}
+                  </Bar>
+              </BarChart>
+            </ResponsiveContainer>
         </div>
     )
 }

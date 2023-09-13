@@ -19,7 +19,6 @@ const TopIntents = ( {selectedTimeframe} ) => {
               },
             ],
           });
-          console.log(response.data.result[0].intents);
           setBarData(response.data.result[0].intents);
         } catch (error) {
           console.error(error);

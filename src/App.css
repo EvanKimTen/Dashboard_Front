@@ -13,3 +13,13 @@ h1{
     margin: 5px;
     font-weight: 600;
 }
+.whole{
+    margin-left: 80px;
+}
+.chat{
+    height: 100vh;
+}
+.conversation{
+    border-bottom: 0.2px solid rgb(172, 172, 172) !important;
+    padding: 25px 15px !important;
+}

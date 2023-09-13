@@ -11,25 +11,27 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
-    <Tooltip title={title} arrow placement="right">
-      <MenuItem
-        active={selected === title}
-        onClick={() => setSelected(title)}
-        icon={icon}
-        component={<Link to={to} />}
-      >
-        <Typography>{title}</Typography>
-      </MenuItem>
+    <Tooltip title={title} placement="right" arrow >
+      <div>
+        <MenuItem
+          active={selected === title}
+          onClick={() => setSelected(title)}
+          icon={icon}
+          component={<Link to={to} />}
+        >
+          <Typography>{title}</Typography>
+        </MenuItem>
+      </div>
     </Tooltip>
   );
 };
 
 const SidebarComp = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Analytics");
 
   return (
     <Box
+    position="fixed"
     sx={{
           "& .ps-sidebar-root": {
             height:"100vh"
@@ -45,33 +47,20 @@ const SidebarComp = () => {
           },
         }}
     >
-      <Sidebar collapsed={isCollapsed}>
+      <Sidebar collapsed={true}>
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+            icon={ <MenuOutlinedIcon />}
             style={{
               margin: "10px 0 20px 0",
               color: "#141414",
             }}
           >
-            {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="10%"
-              >
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
-                </IconButton>
-              </Box>
-            )}
           </MenuItem>
 
 
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          <Box >
             <Item
               title="Analytics"
               to="/"

@@ -23,3 +23,9 @@ h1{
     border-bottom: 0.2px solid rgb(172, 172, 172) !important;
     padding: 25px 15px !important;
 }
+.message{
+    margin-bottom: 25px !important;
+}
+.message-separator{
+    margin: 20px 0 !important;
+}

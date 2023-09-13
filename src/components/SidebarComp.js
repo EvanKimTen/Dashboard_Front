@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -27,7 +27,11 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 };
 
 const SidebarComp = () => {
-  const [selected, setSelected] = useState("Analytics");
+  const [selected, setSelected] = useState(localStorage.getItem('selectedItem') || 'Analytics');
+
+  useEffect(() => {
+    localStorage.setItem('selectedItem', selected);
+  }, [selected]);
 
   return (
     <Box

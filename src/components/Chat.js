@@ -67,15 +67,17 @@ const Chat = ({ transcriptID }) => {
                         <ConversationHeader.Content userName="Transcript"  />  
                     </ConversationHeader>
                     <MessageList  >
-                        <MessageSeparator content="Converstation Started" />
+                        <MessageSeparator className='message-separator' content="Converstation Started" />
 
                         {transcriptDialog.map((item, index) => {
                         if (item.type === "text") {
                             return (
                             <Message
+                                className='message'
                                 key={index}
                                 model={{
-                                direction: "incoming"
+                                direction: "incoming",
+                                position: "single"
                                 }}
                                 payload={item.payload.payload.message}
                             />
@@ -83,9 +85,11 @@ const Chat = ({ transcriptID }) => {
                         } else if (item.type === "request" && item.payload.payload.query) {
                             return (
                                 <Message
+                                    className='message'
                                     key={index}
                                     model={{
-                                    direction: "outgoing"
+                                    direction: "outgoing",
+                                    position: "single"
                                     }}
                                     payload={item.payload.payload.query}
                                 />
@@ -93,9 +97,11 @@ const Chat = ({ transcriptID }) => {
                         } else if (item.type === "request" && item.payload.payload.label) {
                             return (
                                 <Message
+                                    className='message'
                                     key={index}
                                     model={{
-                                    direction: "outgoing"
+                                    direction: "outgoing",
+                                    position: "single"
                                     }}
                                     payload={item.payload.payload.label}
                                 />
@@ -103,19 +109,21 @@ const Chat = ({ transcriptID }) => {
                         } else if (item.type === "carousel") {
                             return (
                                 <Message
+                                    className='message'
                                     key={index}
                                     model={{
                                     direction: "incoming",
+                                    position: "single",
                                     type: "custom"
                                     }}
                                 >
                                     <Message.CustomContent>
-                                        {item.payload.payload.cards.map((product)=>{
+                                        {item.payload.payload.cards.map((product, index)=>{
                                             return(
-                                            <Card>
+                                            <Card key={index} sx={{ marginBottom: "2rem" }}>
                                                 <CardMedia
                                                 component="img"
-                                                height="250"
+                                                height="350"
                                                 image={product.imageUrl}
                                                 alt="product image"
                                                 />
@@ -134,7 +142,7 @@ const Chat = ({ transcriptID }) => {
                         }
                             return null;
                         })}
-                        <MessageSeparator content="Converstation Ended" />
+                        <MessageSeparator className='message-separator'  content="Converstation Ended" />
                     </MessageList>
                 </ChatContainer>                         
             </MainContainer>

@@ -6,6 +6,7 @@ import "./App.css";
 import Analytics from "./pages/Analytics";
 import KnowledgeBase from "./pages/KnowledgeBase";
 import Transcript from "./pages/Transcript";
+import Header from "./components/Header";
 
 
 const App = () => {

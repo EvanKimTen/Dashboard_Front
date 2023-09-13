@@ -1,11 +1,8 @@
 import styles from '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { MainContainer, ChatContainer, MessageList, Message, Sidebar,Conversation, ConversationList, ConversationHeader, MessageSeparator, Avatar } from '@chatscope/chat-ui-kit-react';
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Carousel } from 'react-responsive-carousel';
-
 
 const Chat = ({ transcriptID }) => {
     const [transcriptDialog, setTranscriptDialog] = useState([])

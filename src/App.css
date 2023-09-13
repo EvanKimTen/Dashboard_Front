@@ -18,6 +18,7 @@ h1{
 }
 .chat{
     height: 100vh;
+    margin-top: 60px;
 }
 .conversation{
     border-bottom: 0.2px solid rgb(172, 172, 172) !important;
@@ -25,7 +26,11 @@ h1{
 }
 .message{
     margin-bottom: 25px !important;
+    max-width: 30rem !important;
 }
 .message-separator{
     margin: 20px 0 !important;
+}
+.nav-icon{
+    margin-bottom: 10px;
 }

@@ -1,13 +1,13 @@
 
 import { useState, useEffect } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, Tooltip } from "@mui/material";
+import { Box, Typography, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-
+import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
+import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
+import ShowChartRoundedIcon from '@mui/icons-material/ShowChartRounded';
+import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
@@ -18,6 +18,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
           onClick={() => setSelected(title)}
           icon={icon}
           component={<Link to={to} />}
+          className="nav-icon"
         >
           <Typography>{title}</Typography>
         </MenuItem>
@@ -44,11 +45,12 @@ const SidebarComp = () => {
             backgroundColor: "#FFFFFF !important",
           },
           "& .ps-menuitem-root:hover": {
-            color: "#5560b5",
+            color: "#7583e0e7",
           },
           "& .ps-active": {
-            color: "#5560b5",
+            color: "#7583e0e7",
           },
+          borderRight: "0.5px solid grey"
         }}
     >
       <Sidebar collapsed={true}>
@@ -59,6 +61,7 @@ const SidebarComp = () => {
             style={{
               margin: "10px 0 20px 0",
               color: "#141414",
+              borderBottom: "0.5px solid grey"
             }}
           >
           </MenuItem>
@@ -68,21 +71,21 @@ const SidebarComp = () => {
             <Item
               title="Analytics"
               to="/"
-              icon={<HomeOutlinedIcon />}
+              icon={<ShowChartRoundedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Transcript"
               to="/transcript"
-              icon={<PeopleOutlinedIcon />}
+              icon={<SmsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Knowledge Base"
               to="/knowledge-base"
-              icon={<ContactsOutlinedIcon />}
+              icon={<SmartToyOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

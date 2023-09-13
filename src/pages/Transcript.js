@@ -38,7 +38,7 @@ const Transcript = () => {
 
     return (
         <>
-            <Header name={"Transcript"}/>
+            <Header name={"Transcript"} number={`(${transcriptID.length})`} />
             <Chat transcriptID={transcriptID}/>
         </>
     )

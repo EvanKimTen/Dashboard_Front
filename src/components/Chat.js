@@ -1,7 +1,10 @@
 import styles from '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
-import { MainContainer, ChatContainer, MessageList, Message, Sidebar,Conversation, ConversationList, ConversationHeader, MessageSeparator  } from '@chatscope/chat-ui-kit-react';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { MainContainer, ChatContainer, MessageList, Message, Sidebar,Conversation, ConversationList, ConversationHeader, MessageSeparator, Avatar } from '@chatscope/chat-ui-kit-react';
+import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Carousel } from 'react-responsive-carousel';
 
 
 const Chat = ({ transcriptID }) => {
@@ -35,67 +38,107 @@ const Chat = ({ transcriptID }) => {
 
     useEffect(() => {
         if (transcriptID && transcriptID.length > 0) {
-          setSelectedTranscriptID(transcriptID[0]);
+          setSelectedTranscriptID(transcriptID[0].id);
         }
     }, [transcriptID]);
 
     return (
         <div className='chat'>
-                    <MainContainer responsive>                
-                      <Sidebar position="left" scrollable={true}>
-                        <ConversationList>                                                     {transcriptID.map((id=> {
-                            return(
-                                <Conversation 
-                                key={id} 
-                                name="Test User" 
-                                className='conversation'
-                                onClick={() => setSelectedTranscriptID(id)}
-                                active={id === selectedTranscriptID}
-                                >
-                                </Conversation>
-                            )
-                        }))}
-                        </ConversationList>
-                      </Sidebar>
-                      
-                      <ChatContainer>
-                        <ConversationHeader>
-                          <ConversationHeader.Content userName="Transcript"  />  
-                        </ConversationHeader>
-                        <MessageList  >
-                          <MessageSeparator content="Converstation Started" />
+            <MainContainer responsive>                
+                <Sidebar position="left" scrollable={true}>
+                <ConversationList>                                                     {transcriptID.map((object=> {
+                    return(
+                        <Conversation 
+                        key={object.id} 
+                        name="Test User" 
+                        className='conversation'
+                        onClick={() => setSelectedTranscriptID(object.id)}
+                        active={object.id === selectedTranscriptID}
+                        info={object.createdTime}
+                        >
+                        </Conversation>
+                    )
+                }))}
+                </ConversationList>
+                </Sidebar>
+                
+                <ChatContainer>
+                    <ConversationHeader>
+                        <ConversationHeader.Content userName="Transcript"  />  
+                    </ConversationHeader>
+                    <MessageList  >
+                        <MessageSeparator content="Converstation Started" />
 
-                    {transcriptDialog.map((item, index) => {
-                    if (item.type === "text") {
-                        return (
-                        <Message
-                            key={index} // Use a unique key, such as the index, as React requires unique keys for mapping elements
-                            model={{
-                            direction: "incoming"
-                            }}
-                            payload={item.payload.payload.message}
-                        />
-                        );
-                    } else if (item.type === "request") {
-                        return (
+                        {transcriptDialog.map((item, index) => {
+                        if (item.type === "text") {
+                            return (
                             <Message
-                                key={index} // Use a unique key, such as the index, as React requires unique keys for mapping elements
+                                key={index}
                                 model={{
-                                type: "text",
-                                direction: "outgoing"
+                                direction: "incoming"
                                 }}
-                                payload={item.payload.payload.query}
+                                payload={item.payload.payload.message}
                             />
                             );
-                    }
-                    // Handle other types if needed, or return null if you don't want to render them.
-                    return null;
-                    })}
-                          <MessageSeparator content="Converstation Ended" />
-                        </MessageList>
-                      </ChatContainer>                         
-                    </MainContainer>
-                  </div>
+                        } else if (item.type === "request" && item.payload.payload.query) {
+                            return (
+                                <Message
+                                    key={index}
+                                    model={{
+                                    direction: "outgoing"
+                                    }}
+                                    payload={item.payload.payload.query}
+                                />
+                                );
+                        } else if (item.type === "request" && item.payload.payload.label) {
+                            return (
+                                <Message
+                                    key={index}
+                                    model={{
+                                    direction: "outgoing"
+                                    }}
+                                    payload={item.payload.payload.label}
+                                />
+                                );
+                        } else if (item.type === "carousel") {
+                            return (
+                                <Message
+                                    key={index}
+                                    model={{
+                                    direction: "incoming",
+                                    type: "custom"
+                                    }}
+                                >
+                                    <Message.CustomContent>
+                                        {item.payload.payload.cards.map((product)=>{
+                                            return(
+                                            <Card>
+                                                <CardMedia
+                                                component="img"
+                                                height="250"
+                                                image={product.imageUrl}
+                                                alt="product image"
+                                                />
+                                                <CardContent>
+                                                <Typography gutterBottom variant="h5" component="div">
+                                                    {product.title}
+                                                </Typography>
+                                                </CardContent>
+                                            </Card>
+                                            )
+                                        })}
+                                    </Message.CustomContent>
+                                    
+                                </Message>
+                                );
+                        }
+                            return null;
+                        })}
+                        <MessageSeparator content="Converstation Ended" />
+                    </MessageList>
+                </ChatContainer>                         
+            </MainContainer>
+        </div>
     )
 }
 

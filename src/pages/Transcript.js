@@ -9,7 +9,21 @@ const Transcript = () => {
     const getTranscriptID = async () => {
         try {
             const response = await axios.post(`http://localhost:5001/api/proxy/transcriptID`)
-            const transcriptIDArray = response.data.map(item => item._id);
+            const transcriptIDArray = response.data.map(item => {
+                const isoDate = new Date(item.createdAt);
+                const formattedTime = isoDate.toLocaleString('en-US', {
+                  hour: 'numeric',
+                  minute: 'numeric',
+                  hour12: true,
+                  month: 'short',
+                  day: 'numeric',
+                });
+              
+                return {
+                  id: item._id,
+                  createdTime: formattedTime,
+                };
+            });
             setTranscriptID(transcriptIDArray);
             console.log(transcriptIDArray)
         } catch (error) {

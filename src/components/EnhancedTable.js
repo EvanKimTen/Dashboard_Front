@@ -21,6 +21,17 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import {
+  Button,
+  Menu,
+  MenuItem,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import axios from "axios";
 
 const proxy = axios.create({
@@ -141,7 +152,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected, onDeleteClick } = props;
 
   return (
     <Toolbar
@@ -179,7 +190,7 @@ function EnhancedTableToolbar(props) {
 
       {numSelected > 0 && (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={onDeleteClick}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -192,11 +203,11 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
-  const [documents, setDocuments] = useState([]);
+export default function EnhancedTable(props) {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
   const [selected, setSelected] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -206,19 +217,22 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = documents.map((document) => document.data.name);
+      const newSelected = props.documents.map(
+        (document) => document.documentID
+      );
       setSelected(newSelected);
+      console.log(newSelected);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, documentID) => {
+    const selectedIndex = selected.indexOf(documentID);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, documentID);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -231,88 +245,120 @@ export default function EnhancedTable() {
     }
 
     setSelected(newSelected);
+    console.log(newSelected);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (documentID) => selected.indexOf(documentID) !== -1;
 
   useEffect(() => {
-    getDocuments();
+    props.getDocuments();
   }, []);
 
-  const getDocuments = async () => {
+  const onDeleteClick = () => {
+    setOpenDialog(true);
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+  const handleDelete = async () => {
     try {
-      const response = await proxy.get("/");
-      setDocuments(response.data.data);
-      console.log(response.data.data);
+      const response = await proxy.delete(`/${selected}`);
+      console.log(response.data);
+      props.getDocuments();
+      setSelected([]);
+      handleClose();
     } catch (err) {
       console.error(err);
     }
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={documents.length}
-            />
-            <TableBody>
-              {documents.map((document, index) => {
-                const isItemSelected = isSelected(document.data.name);
-                const labelId = `enhanced-table-checkbox-${index}`;
+    <div>
+      <Box sx={{ width: "100%" }}>
+        <Paper sx={{ width: "100%", mb: 2 }}>
+          <EnhancedTableToolbar
+            numSelected={selected.length}
+            onDeleteClick={onDeleteClick}
+          />
+          <TableContainer>
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={props.documents.length}
+              />
+              <TableBody>
+                {props.documents.map((document, index) => {
+                  const isItemSelected = isSelected(document.documentID);
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, document.data.name)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={document.data.name}
-                    selected={isItemSelected}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          "aria-labelledby": labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                      sx={{ width: "33rem" }}
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) =>
+                        handleClick(event, document.documentID)
+                      }
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={document.documentID}
+                      selected={isItemSelected}
+                      sx={{ cursor: "pointer" }}
                     >
-                      {document.data.name.substring(0, 48)}...
-                    </TableCell>
-                    <TableCell align="left" padding="none">
-                      {document.data.type}
-                    </TableCell>
-                    <TableCell align="left" padding="none">
-                      {document.status.type}
-                    </TableCell>
-                    <TableCell align="left" padding="none">
-                      {document.updatedAt}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-    </Box>
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            "aria-labelledby": labelId,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                        sx={{ width: "33rem" }}
+                      >
+                        {document.data.name.substring(0, 48)}...
+                      </TableCell>
+                      <TableCell align="left" padding="none">
+                        {document.data.type}
+                      </TableCell>
+                      <TableCell align="left" padding="none">
+                        {document.status.type}
+                      </TableCell>
+                      <TableCell align="left" padding="none">
+                        {document.updatedAt}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Box>
+      <Dialog fullWidth maxWidth="xs" open={openDialog} onClose={handleClose}>
+        <DialogTitle>Delete Items</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete {selected.length} item(s)? <br />
+            This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button variant="contained" onClick={handleDelete}>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 }

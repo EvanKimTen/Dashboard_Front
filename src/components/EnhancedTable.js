@@ -20,6 +20,10 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import CheckIcon from "@mui/icons-material/Check";
+import LoopIcon from "@mui/icons-material/Loop";
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
+import CircularProgress from "@mui/material/CircularProgress";
 import { visuallyHidden } from "@mui/utils";
 import {
   Button,
@@ -33,16 +37,27 @@ import {
   DialogTitle,
 } from "@mui/material";
 import axios from "axios";
+import { Check, Loop } from "@mui/icons-material";
 
 const proxy = axios.create({
   baseURL: "http://localhost:5001/proxy/knowledge-base",
 });
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
+  let x = "";
+  let y = "";
+  if (orderBy === "updatedAt") {
+    x = a[orderBy];
+    y = b[orderBy];
+  } else {
+    const params = orderBy.split(".");
+    x = a[params[0]][params[1]];
+    y = b[params[0]][params[1]];
+  }
+  if (y < x) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (y > x) {
     return 1;
   }
   return 0;
@@ -72,19 +87,19 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "name",
+    id: "data.name",
     label: "Name",
   },
   {
-    id: "type",
+    id: "data.type",
     label: "Type",
   },
   {
-    id: "status",
+    id: "status.type",
     label: "Status",
   },
   {
-    id: "date",
+    id: "updatedAt",
     label: "Date",
   },
 ];
@@ -123,18 +138,24 @@ function EnhancedTableHead(props) {
             padding="none"
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {headCell.label === "Status" ? (
+              <div style={{ marginRight: "1.2rem" }}>Status</div>
+            ) : (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            )}
           </TableCell>
         ))}
       </TableRow>
@@ -204,15 +225,20 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable(props) {
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("calories");
+  const [order, setOrder] = useState("desc");
+  const [orderBy, setOrderBy] = useState("updatedAt");
   const [selected, setSelected] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    props.getDocuments();
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
+    console.log(order, orderBy);
   };
 
   const handleSelectAllClick = (event) => {
@@ -250,10 +276,6 @@ export default function EnhancedTable(props) {
 
   const isSelected = (documentID) => selected.indexOf(documentID) !== -1;
 
-  useEffect(() => {
-    props.getDocuments();
-  }, []);
-
   const onDeleteClick = () => {
     setOpenDialog(true);
   };
@@ -262,16 +284,23 @@ export default function EnhancedTable(props) {
     setOpenDialog(false);
   };
   const handleDelete = async () => {
-    try {
-      const response = await proxy.delete(`/${selected}`);
-      console.log(response.data);
-      props.getDocuments();
-      setSelected([]);
-      handleClose();
-    } catch (err) {
-      console.error(err);
-    }
+    selected.map(async (document) => {
+      try {
+        const response = await proxy.delete(`/${document}`);
+        console.log(response.data);
+        props.getDocuments();
+        setSelected([]);
+        handleClose();
+      } catch (err) {
+        console.error(err);
+      }
+    });
   };
+
+  const visibleRows = useMemo(
+    () => stableSort(props.documents, getComparator(order, orderBy)),
+    [order, orderBy]
+  );
 
   return (
     <div>
@@ -292,7 +321,7 @@ export default function EnhancedTable(props) {
                 rowCount={props.documents.length}
               />
               <TableBody>
-                {props.documents.map((document, index) => {
+                {visibleRows.map((document, index) => {
                   const isItemSelected = isSelected(document.documentID);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -327,11 +356,23 @@ export default function EnhancedTable(props) {
                       >
                         {document.data.name.substring(0, 48)}...
                       </TableCell>
-                      <TableCell align="left" padding="none">
+                      <TableCell
+                        align="left"
+                        padding="none"
+                        style={{ textTransform: "uppercase" }}
+                      >
                         {document.data.type}
                       </TableCell>
                       <TableCell align="left" padding="none">
-                        {document.status.type}
+                        {document.status.type === "SUCCESS" && (
+                          <CheckIcon color="success" />
+                        )}
+                        {document.status.type === "INITIALIZED" && (
+                          <CircularProgress size={20} />
+                        )}
+                        {document.status.type === "ERROR" && (
+                          <ReportGmailerrorredIcon color="error" />
+                        )}
                       </TableCell>
                       <TableCell align="left" padding="none">
                         {document.updatedAt}

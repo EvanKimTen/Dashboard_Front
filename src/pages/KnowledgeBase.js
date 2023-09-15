@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
+import FindInPageIcon from "@mui/icons-material/FindInPage";
+
 import EnhancedTable from "../components/EnhancedTable";
 import { DataSourceDropdown } from "../components/DataSourceDropdown";
 
@@ -23,6 +25,8 @@ const proxy = axios.create({
 
 const KnowledgeBase = () => {
   const [documents, setDocuments] = useState([]);
+  const [viewingDocuments, setViewingDocuments] = useState([]);
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     getDocuments();
@@ -32,9 +36,22 @@ const KnowledgeBase = () => {
     try {
       const response = await proxy.get("/");
       setDocuments(response.data.data);
+      setViewingDocuments(response.data.data);
       console.log(response.data.data);
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleSearch = async (e) => {
+    setInput(e.target.value);
+    if (e.target.value.length < 1) {
+      setViewingDocuments(documents);
+    } else {
+      const filteredDocuments = documents.filter((document) =>
+        document.data.name.includes(input)
+      );
+      setViewingDocuments(filteredDocuments);
     }
   };
 
@@ -43,7 +60,12 @@ const KnowledgeBase = () => {
       <TopBar>
         <SearchBar>
           <SearchIcon />
-          <input type="text" placeholder="Search for documents"></input>
+          <input
+            type="text"
+            value={input}
+            placeholder="Search for documents"
+            onChange={(e) => handleSearch(e)}
+          ></input>
         </SearchBar>
         <Buttons>
           <Button variant="outlined">
@@ -54,11 +76,22 @@ const KnowledgeBase = () => {
         </Buttons>
       </TopBar>
       <Content>
-        <EnhancedTable
-          documents={documents}
-          setDocuments={setDocuments}
-          getDocuments={getDocuments}
-        />
+        {viewingDocuments.length > 0 ? (
+          <EnhancedTable
+            documents={viewingDocuments}
+            setDocuments={setDocuments}
+            getDocuments={getDocuments}
+          />
+        ) : (
+          <Label>
+            <FindInPageIcon color="primary" />
+            <h3>No data sources exist</h3>
+            <h4>
+              Upload text, PDF, URLs, and create a Chat-GPT like agent
+              experience.
+            </h4>
+          </Label>
+        )}
       </Content>
     </div>
   );
@@ -66,7 +99,9 @@ const KnowledgeBase = () => {
 
 const Content = styled.div`
   max-height: 40rem; /*..very important if you want scroll bar...*/
+  height: 40rem;
   overflow: auto; /*..will introduce scroll bar when needed..*/
+  background-color: #fcfcfc;
 `;
 
 const TopBar = styled.div`
@@ -101,6 +136,18 @@ const Buttons = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+`;
+
+const Label = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15%;
+
+  svg {
+    font-size: 5rem;
+  }
 `;
 
 export default KnowledgeBase;

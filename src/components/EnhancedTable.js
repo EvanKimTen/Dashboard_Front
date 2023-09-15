@@ -299,7 +299,7 @@ export default function EnhancedTable(props) {
 
   const visibleRows = useMemo(
     () => stableSort(props.documents, getComparator(order, orderBy)),
-    [order, orderBy]
+    [order, orderBy, props.documents]
   );
 
   return (

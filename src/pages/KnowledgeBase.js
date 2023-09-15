@@ -33,24 +33,28 @@ const KnowledgeBase = () => {
   }, []);
 
   const getDocuments = async () => {
+    console.log("get");
     try {
       const response = await proxy.get("/");
       setDocuments(response.data.data);
       setViewingDocuments(response.data.data);
-      console.log(response.data.data);
     } catch (err) {
       console.error(err);
     }
   };
 
   const handleSearch = async (e) => {
+    console.log(e.target.value);
     setInput(e.target.value);
     if (e.target.value.length < 1) {
+      console.log("all");
       setViewingDocuments(documents);
     } else {
       const filteredDocuments = documents.filter((document) =>
-        document.data.name.includes(input)
+        document.data.name.toLowerCase().includes(input.toLowerCase())
       );
+      console.log(filteredDocuments);
+      console.log("filtered");
       setViewingDocuments(filteredDocuments);
     }
   };
@@ -63,7 +67,7 @@ const KnowledgeBase = () => {
           <input
             type="text"
             value={input}
-            placeholder="Search for documents"
+            placeholder={`Search for ${documents.length} documents`}
             onChange={(e) => handleSearch(e)}
           ></input>
         </SearchBar>
@@ -76,13 +80,12 @@ const KnowledgeBase = () => {
         </Buttons>
       </TopBar>
       <Content>
-        {viewingDocuments.length > 0 ? (
-          <EnhancedTable
-            documents={viewingDocuments}
-            setDocuments={setDocuments}
-            getDocuments={getDocuments}
-          />
-        ) : (
+        <EnhancedTable
+          documents={viewingDocuments}
+          setDocuments={setDocuments}
+          getDocuments={getDocuments}
+        />
+        {viewingDocuments.length === 0 && (
           <Label>
             <FindInPageIcon color="primary" />
             <h3>No data sources exist</h3>

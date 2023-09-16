@@ -1,23 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import {
-  Button,
-  Menu,
-  MenuItem,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import TuneIcon from "@mui/icons-material/Tune";
 import FindInPageIcon from "@mui/icons-material/FindInPage";
 
 import EnhancedTable from "../components/EnhancedTable";
 import { DataSourceDropdown } from "../components/DataSourceDropdown";
+import { AiSettings } from "../components/AiSettings";
+import { AiPreview } from "../components/AiPreview";
 
 const proxy = axios.create({
   baseURL: "http://localhost:5001/proxy/knowledge-base",
@@ -26,14 +16,21 @@ const proxy = axios.create({
 const KnowledgeBase = () => {
   const [documents, setDocuments] = useState([]);
   const [viewingDocuments, setViewingDocuments] = useState([]);
-  const [input, setInput] = useState("");
+  const [search, setSearch] = useState("");
+  const [settings, setSettings] = useState({
+    model: "gpt-3.5-turbo",
+    temperature: 0.1,
+    maxchunkSize: 400,
+    system:
+      "넌 흑염소 농장협회 어시스턴트야. 꼭 한국어로만 대답해줘. 다른 언어는 절대 쓰면 안 돼. 다시 한 번 경고하는데 한국어로만 답해줘.",
+    chunkLimit: 3,
+  });
 
   useEffect(() => {
     getDocuments();
   }, []);
 
   const getDocuments = async () => {
-    console.log("get");
     try {
       const response = await proxy.get("/");
       setDocuments(response.data.data);
@@ -44,14 +41,13 @@ const KnowledgeBase = () => {
   };
 
   const handleSearch = async (e) => {
-    console.log(e.target.value);
-    setInput(e.target.value);
+    setSearch(e.target.value);
     if (e.target.value.length < 1) {
       console.log("all");
       setViewingDocuments(documents);
     } else {
       const filteredDocuments = documents.filter((document) =>
-        document.data.name.toLowerCase().includes(input.toLowerCase())
+        document.data.name.toLowerCase().includes(search.toLowerCase())
       );
       console.log(filteredDocuments);
       console.log("filtered");
@@ -66,16 +62,14 @@ const KnowledgeBase = () => {
           <SearchIcon />
           <input
             type="text"
-            value={input}
+            value={search}
             placeholder={`Search for ${documents.length} documents`}
             onChange={(e) => handleSearch(e)}
           ></input>
         </SearchBar>
         <Buttons>
-          <Button variant="outlined">
-            <TuneIcon />
-          </Button>
-          <Button variant="outlined">AI Preview</Button>
+          <AiSettings settings={settings} setSettings={setSettings} />
+          <AiPreview settings={settings} />
           <DataSourceDropdown getDocuments={getDocuments} />
         </Buttons>
       </TopBar>

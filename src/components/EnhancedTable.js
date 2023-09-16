@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -7,7 +7,6 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,20 +15,13 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import CheckIcon from "@mui/icons-material/Check";
-import LoopIcon from "@mui/icons-material/Loop";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 import CircularProgress from "@mui/material/CircularProgress";
 import { visuallyHidden } from "@mui/utils";
 import {
   Button,
-  Menu,
-  MenuItem,
-  TextField,
   Dialog,
   DialogActions,
   DialogContent,
@@ -37,7 +29,6 @@ import {
   DialogTitle,
 } from "@mui/material";
 import axios from "axios";
-import { Check, Loop } from "@mui/icons-material";
 
 const proxy = axios.create({
   baseURL: "http://localhost:5001/proxy/knowledge-base",
@@ -230,10 +221,6 @@ export default function EnhancedTable(props) {
   const [selected, setSelected] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
 
-  useEffect(() => {
-    props.getDocuments();
-  }, []);
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -283,6 +270,7 @@ export default function EnhancedTable(props) {
   const handleClose = () => {
     setOpenDialog(false);
   };
+
   const handleDelete = async () => {
     selected.map(async (document) => {
       try {

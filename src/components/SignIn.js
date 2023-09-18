@@ -11,17 +11,30 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 // TODO remove, this demo shouldn't need to reset the theme.
+import { useHistory } from 'react-router-dom'
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
+    const username = data.get('username');
+    const password = data.get('password');
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
     });
+  
+    if (response.ok) {
+      const data = await response.json();
+      // Store the authentication token (not made yet I forgot honestly)
+      localStorage.setItem('authToken', data.token);
+      useHistory.push('/');
+    }
   };
   
   return (
@@ -47,7 +60,6 @@ export default function SignIn() {
               id="username"
               label="Username"
               name="username"
-              autoComplete="username"
               autoFocus
             />
             <TextField
@@ -58,7 +70,6 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -69,7 +80,6 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={handleSubmit}
             >
               Sign In
             </Button>
@@ -80,7 +90,7 @@ export default function SignIn() {
                 </Link> */}
               </Grid>
               <Grid item>
-                <Link href="./join.js" variant="body2">
+                <Link href="./SignUp.js" variant="body2">
                   {"Don't have an account? Sign Up Here"}
                 </Link>
               </Grid>

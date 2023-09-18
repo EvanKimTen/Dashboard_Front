@@ -5,23 +5,37 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useHistory } from 'react-router-dom';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
+    const username = data.get('username');
+    const password = data.get('password');
+    const API_KEY = data.get('API_KEY');
+    const projectID = data.get('projectID');
+    const response = await fetch('/join', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password, projectID, API_KEY }),
     });
+  
+    if (response.ok) {
+      const data = await response.json();
+      // Store the authentication token (not made yet I forgot honestly)
+      localStorage.setItem('authToken', data.token);
+      useHistory.push('/login');
+    }
   };
 
   return (
@@ -36,8 +50,6 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          
-            <LockOutlinedIcon />
           
           <Typography component="h1" variant="h5">
             Sign up
@@ -86,12 +98,7 @@ export default function SignUp() {
                   autoComplete="Project ID"
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid> */}
+              
             </Grid>
             <Button
               type="submit"
@@ -103,14 +110,13 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="./login.js" variant="body2">
+                <Link href="./SignIn.js" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );

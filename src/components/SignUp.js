@@ -35,8 +35,6 @@ export default function SignUp() {
       // Store the authentication token (not made yet I forgot honestly)
       localStorage.setItem('authToken', data.token);
       useHistory.push('/login');
-    } else {
-      // Handle login error (e.g., display an error message)
     }
   };
 

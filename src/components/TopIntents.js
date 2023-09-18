@@ -8,23 +8,32 @@ const TopIntents = ( {selectedTimeframe} ) => {
     const colors = ['#84d899', '#8884d8', '#e37575', '#A0C1D1', '#5A7D7C'];
     
     const getData = async (startDate, endDate) => {
-        try {
-          const response = await axios.post(`http://localhost:5001/api/proxy/top_intents`, {
-            query: [
-              {
-                filter: {
-                  startTime: `${startDate}T00:00:00.000Z`,
-                  endTime: `${endDate}T23:59:59.999Z`,
-                },
+      try {
+        const response = await axios.post(`http://localhost:5001/api/proxy/top_intents`, {
+          query: [
+            {
+              filter: {
+                startTime: `${startDate}T00:00:00.000Z`,
+                endTime: `${endDate}T23:59:59.999Z`,
               },
-            ],
-          });
-          console.log(response.data.result[0].intents);
-          setBarData(response.data.result[0].intents);
-        } catch (error) {
-          console.error(error);
-        }
-      };
+            },
+          ],
+        });
+    
+        // Iterate through the response data and replace empty names with 'None'
+        const updatedData = response.data.result[0].intents.map(intent => {
+          if (intent.name.trim() === '') {
+            intent.name = 'None';
+          }
+          return intent;
+        });
+    
+        setBarData(updatedData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    
     
     const setDate = async (timeframe) => {
       let startDate, endDate;

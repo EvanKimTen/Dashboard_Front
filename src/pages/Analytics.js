@@ -11,6 +11,7 @@ import Sessions from "../components/Sessions";
 import TopIntents from "../components/TopIntents";
 import Understood from "../components/Understood";
 import Users from "../components/Users";
+import Header from "../components/Header";
 
 const Analytics = () => {
   const [interactionsData, setInteractionsData] = useState([]);
@@ -119,7 +120,8 @@ const Analytics = () => {
 
   return (
     <>
-      <Box mt="20px" >
+      <Header name={'Analytics'}/>
+      <Box mt="6rem" >
         <Box sx={{ 
           width: 150,
           m: 2,

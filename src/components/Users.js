@@ -16,13 +16,9 @@ const Users = ( {totalCount, data, fetchWeeklyData, selectedTimeframe} ) => {
 
     return (
         <div className='content' id='users'>
-          {/* <h2>Users</h2>
-          <h4>Unique user sessions with your assistant.</h4>
-          <h1>{totalCount}</h1> */}
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-            width={420}
-            height={150}
+            height={100}
             data={data}
             margin={{
               top: 15,
@@ -31,10 +27,10 @@ const Users = ( {totalCount, data, fetchWeeklyData, selectedTimeframe} ) => {
               bottom: 0,
             }}
             >
-              <XAxis dataKey="date" interval={selectedTimeframe === 'last30Days' ? 10 : 0} hide={true}/>
+              <XAxis dataKey="date" interval={selectedTimeframe === 'last7Days' ? 0 : 10}hide={true}/>
               <YAxis hide={true}/>
               <Tooltip />
-              <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8" activeDot={{ r: 8 }} />
+              <Area type="monotone" dataKey="count" stroke="#4f9561" fill="url(#smallGradient)"activeDot={{ r: 8 }} />
             </AreaChart>
           </ResponsiveContainer>
         </div>

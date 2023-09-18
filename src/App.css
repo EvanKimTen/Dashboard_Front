@@ -1,19 +1,36 @@
-/* #container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    grid-template-rows: 1fr 1fr; 
-    height: 100vh; 
-}
-.content{
-    border: 1px solid #ccc;
-    padding: 10px 20px;
-}
-#interactions{
-    grid-column-start: 1;
-    grid-column-end: 3;
-}
-#recognition{
-    grid-column-start: 3;
-    grid-column-end: 4;
-} */
+.chart-title{
+    margin: 0;
+    font-weight: bold;
+    font-size: 1.2rem;
 
+}
+.chart-description{
+    margin: 0;
+    color: #636363
+
+}
+h1{
+    margin: 5px;
+    font-weight: 600;
+}
+.whole{
+    margin-left: 80px;
+}
+.chat{
+    height: 100vh;
+    margin-top: 60px;
+}
+.conversation{
+    border-bottom: 0.2px solid rgb(172, 172, 172) !important;
+    padding: 25px 15px !important;
+}
+.message{
+    margin-bottom: 25px !important;
+    max-width: 30rem !important;
+}
+.message-separator{
+    margin: 20px 0 !important;
+}
+.nav-icon{
+    margin-bottom: 10px;
+}

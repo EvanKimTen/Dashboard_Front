@@ -1,95 +1,91 @@
-import { useState } from "react";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
+import { useState, useEffect } from "react";
+import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { Box, Typography, Tooltip } from "@mui/material";
+import { Link } from "react-router-dom";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
+import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
+import ShowChartRoundedIcon from '@mui/icons-material/ShowChartRounded';
+import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
-    <MenuItem
-      active={selected === title}
-      onClick={() => setSelected(title)}
-      icon={icon}
-      component={<Link to={to} />}
-    >
-      <Typography>{title}</Typography>
-    </MenuItem>
+    <Tooltip title={title} placement="right" arrow >
+      <div>
+        <MenuItem
+          active={selected === title}
+          onClick={() => setSelected(title)}
+          icon={icon}
+          component={<Link to={to} />}
+          className="nav-icon"
+        >
+          <Typography>{title}</Typography>
+        </MenuItem>
+      </div>
+    </Tooltip>
   );
 };
 
 const SidebarComp = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
+  const [selected, setSelected] = useState(localStorage.getItem('selectedItem') || 'Analytics');
+
+  useEffect(() => {
+    localStorage.setItem('selectedItem', selected);
+  }, [selected]);
 
   return (
     <Box
-      sx={{
-        "& .pro-sidebar-inner": {
-          background: "#1F2A40 !important",
-        },
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#6870fa !important",
-        },
-      }}
+    position="fixed"
+    sx={{
+          "& .ps-sidebar-root": {
+            height:"100vh"
+          },
+          "& .ps-sidebar-container": {
+            backgroundColor: "#FFFFFF !important",
+          },
+          "& .ps-menuitem-root:hover": {
+            color: "#7583e0e7",
+          },
+          "& .ps-active": {
+            color: "#7583e0e7",
+          },
+          borderRight: "0.5px solid grey"
+        }}
     >
-      <Sidebar collapsed={isCollapsed}>
+      <Sidebar collapsed={true}>
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+            icon={ <MenuOutlinedIcon />}
             style={{
               margin: "10px 0 20px 0",
               color: "#141414",
+              borderBottom: "0.5px solid grey"
             }}
           >
-            {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="10%"
-              >
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
-                </IconButton>
-              </Box>
-            )}
           </MenuItem>
 
 
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          <Box >
             <Item
               title="Analytics"
               to="/"
-              icon={<HomeOutlinedIcon />}
+              icon={<ShowChartRoundedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Transcript"
               to="/transcript"
-              icon={<PeopleOutlinedIcon />}
+              icon={<SmsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Knowledge Base"
               to="/knowledge-base"
-              icon={<ContactsOutlinedIcon />}
+              icon={<SmartToyOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

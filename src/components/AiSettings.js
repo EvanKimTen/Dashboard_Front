@@ -190,6 +190,7 @@ export const AiSettings = (props) => {
             </Typography>
             <TextField
               name="system"
+              value={settings.system}
               id="outlined-textarea"
               placeholder="Enter prompt"
               multiline

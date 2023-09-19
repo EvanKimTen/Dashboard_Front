@@ -8,6 +8,7 @@ import EnhancedTable from "../components/EnhancedTable";
 import { DataSourceDropdown } from "../components/DataSourceDropdown";
 import { AiSettings } from "../components/AiSettings";
 import { AiPreview } from "../components/AiPreview";
+import Header from "../components/Header";
 
 const proxy = axios.create({
   baseURL: "http://localhost:5001/proxy/knowledge-base",
@@ -95,10 +96,9 @@ const KnowledgeBase = () => {
 };
 
 const Content = styled.div`
-  max-height: 40rem; /*..very important if you want scroll bar...*/
-  height: 40rem;
+  max-height: 90vh; /*..very important if you want scroll bar...*/
   overflow: auto; /*..will introduce scroll bar when needed..*/
-  background-color: #fcfcfc;
+  background-color: #ebebeb;
 `;
 
 const TopBar = styled.div`
@@ -107,8 +107,12 @@ const TopBar = styled.div`
   align-items: center;
   border-bottom: 1px solid #ceddea;
   padding: 1rem;
+  background-color: white;
   button {
     border: 1px solid #b7c4d0;
+  }
+  input {
+    background-color: white;
   }
 `;
 
@@ -117,7 +121,7 @@ const SearchBar = styled.div`
   justify-content: center;
   align-items: center;
   svg {
-    color: #b7c4d0;
+    color: #737a80;
     font-size: 1.5rem;
   }
   input {
@@ -140,8 +144,7 @@ const Label = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 15%;
-
+  margin-top: 10%;
   svg {
     font-size: 5rem;
   }

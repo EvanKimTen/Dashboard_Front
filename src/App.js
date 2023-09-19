@@ -8,24 +8,22 @@ import KnowledgeBase from "./pages/KnowledgeBase";
 import Transcript from "./pages/Transcript";
 import Header from "./components/Header";
 
-
 const App = () => {
-
   return (
     <>
-    <CssBaseline />
-    <div className="App">
-      <SidebarComp />
-      <main className="content whole">
-        <Routes>
-          {/*public routes*/}
-          <Route path="/" element={<Analytics />} />
-          <Route path="/knowledge-base" element={<KnowledgeBase />} />
-          <Route path="/transcript" element={<Transcript />} />
-          {/*protected routes*/}
-        </Routes>
-      </main>
-    </div>
+      <CssBaseline />
+      <div className="App">
+        <SidebarComp />
+        <main className="content whole">
+          <Routes>
+            {/*public routes*/}
+            <Route path="/" element={<Analytics />} />
+            <Route path="/knowledge-base" element={<KnowledgeBase />} />
+            <Route path="/transcript" element={<Transcript />} />
+            {/*protected routes*/}
+          </Routes>
+        </main>
+      </div>
     </>
   );
 };

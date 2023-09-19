@@ -29,6 +29,7 @@ const KnowledgeBase = () => {
 
   useEffect(() => {
     getDocuments();
+    getSettings();
   }, []);
 
   const getDocuments = async () => {
@@ -36,6 +37,24 @@ const KnowledgeBase = () => {
       const response = await proxy.get("/");
       setDocuments(response.data.data);
       setViewingDocuments(response.data.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getSettings = async () => {
+    try {
+      const response = await proxy.get(`/settings/${userId}`);
+      console.log(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const saveSettings = async () => {
+    try {
+      const response = await proxy.put(`/settings/${userId}`, settings);
+      console.log(response.data);
     } catch (err) {
       console.error(err);
     }
@@ -70,7 +89,11 @@ const KnowledgeBase = () => {
           ></input>
         </SearchBar>
         <Buttons>
-          <AiSettings settings={settings} setSettings={setSettings} />
+          <AiSettings
+            settings={settings}
+            setSettings={setSettings}
+            saveSettings={saveSettings}
+          />
           <AiPreview settings={settings} />
           <DataSourceDropdown getDocuments={getDocuments} />
         </Buttons>

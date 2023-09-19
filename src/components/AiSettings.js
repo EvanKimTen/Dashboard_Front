@@ -27,7 +27,7 @@ const proxy = axios.create({
 
 export const AiSettings = (props) => {
   const [openDialog, setOpenDialog] = useState(false);
-  const { settings, setSettings } = props;
+  const { settings, setSettings, saveSettings } = props;
 
   const handleChange = (event) => {
     setSettings({ ...settings, [event.target.name]: event.target.value });
@@ -218,7 +218,7 @@ export const AiSettings = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button variant="contained" onClick={handleSave}>
+          <Button variant="contained" onClick={saveSettings}>
             Save
           </Button>
         </DialogActions>

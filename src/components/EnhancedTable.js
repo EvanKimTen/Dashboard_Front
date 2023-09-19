@@ -293,7 +293,7 @@ export default function EnhancedTable(props) {
   return (
     <div>
       <Box sx={{ width: "100%" }}>
-        <Paper sx={{ width: "100%", mb: 2 }}>
+        <Paper sx={{ width: "100%" }}>
           <EnhancedTableToolbar
             numSelected={selected.length}
             onDeleteClick={onDeleteClick}
@@ -340,14 +340,23 @@ export default function EnhancedTable(props) {
                         id={labelId}
                         scope="row"
                         padding="none"
-                        sx={{ width: "33rem" }}
+                        sx={{
+                          width: "33rem",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "40vw",
+                          paddingRight: "4rem",
+                        }}
                       >
-                        {document.data.name.substring(0, 48)}...
+                        {document.data.name}
                       </TableCell>
                       <TableCell
                         align="left"
                         padding="none"
-                        style={{ textTransform: "uppercase" }}
+                        style={{
+                          textTransform: "uppercase",
+                        }}
                       >
                         {document.data.type}
                       </TableCell>

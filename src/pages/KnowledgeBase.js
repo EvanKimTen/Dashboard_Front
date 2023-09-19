@@ -57,7 +57,8 @@ const KnowledgeBase = () => {
   };
 
   return (
-    <div>
+    <>
+      <Header name={"Knowledge Base"} />
       <TopBar>
         <SearchBar>
           <SearchIcon />
@@ -91,12 +92,12 @@ const KnowledgeBase = () => {
           </Label>
         )}
       </Content>
-    </div>
+    </>
   );
 };
 
 const Content = styled.div`
-  max-height: 90vh; /*..very important if you want scroll bar...*/
+  max-height: 85vh; /*..very important if you want scroll bar...*/
   overflow: auto; /*..will introduce scroll bar when needed..*/
   background-color: #ebebeb;
 `;
@@ -108,6 +109,7 @@ const TopBar = styled.div`
   border-bottom: 1px solid #ceddea;
   padding: 1rem;
   background-color: white;
+  margin-top: 3.8rem;
   button {
     border: 1px solid #b7c4d0;
   }

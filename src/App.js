@@ -10,7 +10,6 @@ import Login from "./components/Login";
 import Join from "./components/Join";
 
 const App = () => {
-
   return (
     <>
     <CssBaseline />

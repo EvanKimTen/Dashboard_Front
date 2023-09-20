@@ -27,7 +27,7 @@ const proxy = axios.create({
 
 export const AiSettings = (props) => {
   const [openDialog, setOpenDialog] = useState(false);
-  const { settings, setSettings, saveSettings } = props;
+  const { settings, setSettings, saveSettings, userId } = props;
 
   const handleChange = (event) => {
     setSettings({ ...settings, [event.target.name]: event.target.value });

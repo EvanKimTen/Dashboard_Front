@@ -220,6 +220,7 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = useState("updatedAt");
   const [selected, setSelected] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const { documents, setDocuments, getDocuments, userId } = props;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -230,9 +231,7 @@ export default function EnhancedTable(props) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = props.documents.map(
-        (document) => document.documentID
-      );
+      const newSelected = documents.map((document) => document.documentID);
       setSelected(newSelected);
       console.log(newSelected);
       return;
@@ -274,9 +273,9 @@ export default function EnhancedTable(props) {
   const handleDelete = async () => {
     selected.map(async (document) => {
       try {
-        const response = await proxy.delete(`/${document}`);
+        const response = await proxy.delete(`/${document}/${userId}`);
         console.log(response.data);
-        props.getDocuments();
+        getDocuments();
         setSelected([]);
         handleClose();
       } catch (err) {
@@ -286,8 +285,8 @@ export default function EnhancedTable(props) {
   };
 
   const visibleRows = useMemo(
-    () => stableSort(props.documents, getComparator(order, orderBy)),
-    [order, orderBy, props.documents]
+    () => stableSort(documents, getComparator(order, orderBy)),
+    [order, orderBy, documents]
   );
 
   return (
@@ -306,7 +305,7 @@ export default function EnhancedTable(props) {
                 orderBy={orderBy}
                 onSelectAllClick={handleSelectAllClick}
                 onRequestSort={handleRequestSort}
-                rowCount={props.documents.length}
+                rowCount={documents.length}
               />
               <TableBody>
                 {visibleRows.map((document, index) => {

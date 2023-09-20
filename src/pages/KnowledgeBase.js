@@ -35,7 +35,7 @@ const KnowledgeBase = () => {
 
   const getDocuments = async () => {
     try {
-      const response = await proxy.get("/");
+      const response = await proxy.get(`/${userId}`);
       setDocuments(response.data.data);
       setViewingDocuments(response.data.data);
     } catch (err) {
@@ -94,9 +94,10 @@ const KnowledgeBase = () => {
             settings={settings}
             setSettings={setSettings}
             saveSettings={saveSettings}
+            userId={userId}
           />
-          <AiPreview settings={settings} />
-          <DataSourceDropdown getDocuments={getDocuments} />
+          <AiPreview settings={settings} userId={userId} />
+          <DataSourceDropdown getDocuments={getDocuments} userId={userId} />
         </Buttons>
       </TopBar>
       <Content>
@@ -104,6 +105,7 @@ const KnowledgeBase = () => {
           documents={viewingDocuments}
           setDocuments={setDocuments}
           getDocuments={getDocuments}
+          userId={userId}
         />
         {viewingDocuments.length === 0 && (
           <Label>
@@ -121,7 +123,7 @@ const KnowledgeBase = () => {
 };
 
 const Content = styled.div`
-  max-height: 85vh; /*..very important if you want scroll bar...*/
+  max-height: 80vh; /*..very important if you want scroll bar...*/
   overflow: auto; /*..will introduce scroll bar when needed..*/
   background-color: #ebebeb;
 `;

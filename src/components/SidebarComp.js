@@ -70,7 +70,7 @@ const SidebarComp = () => {
           <Box >
             <Item
               title="Analytics"
-              to="/"
+              to="/analytics"
               icon={<ShowChartRoundedIcon />}
               selected={selected}
               setSelected={setSelected}

@@ -59,7 +59,8 @@ export const AiSettings = (props) => {
   };
 
   const handleSave = () => {
-    console.log(settings);
+    saveSettings();
+    handleClose();
   };
 
   return (
@@ -218,7 +219,7 @@ export const AiSettings = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button variant="contained" onClick={saveSettings}>
+          <Button variant="contained" onClick={handleSave}>
             Save
           </Button>
         </DialogActions>

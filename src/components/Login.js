@@ -33,7 +33,7 @@ export default function Login() {
     });
     const { userId } = response.data;
     window.localStorage.setItem("userId", userId);
-    navigate("/analytics");
+    navigate("/knowledge-base");
   };
 
   return (

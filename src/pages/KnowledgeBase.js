@@ -9,6 +9,7 @@ import { DataSourceDropdown } from "../components/DataSourceDropdown";
 import { AiSettings } from "../components/AiSettings";
 import { AiPreview } from "../components/AiPreview";
 import Header from "../components/Header";
+import { useUserId } from "../hooks/useUserId";
 
 const proxy = axios.create({
   baseURL: "http://localhost:5001/proxy/knowledge-base",
@@ -19,13 +20,13 @@ const KnowledgeBase = () => {
   const [viewingDocuments, setViewingDocuments] = useState([]);
   const [search, setSearch] = useState("");
   const [settings, setSettings] = useState({
-    model: "gpt-3.5-turbo",
-    temperature: 0.1,
-    maxchunkSize: 400,
-    system:
-      "넌 흑염소 농장협회 어시스턴트야. 꼭 한국어로만 대답해줘. 다른 언어는 절대 쓰면 안 돼. 다시 한 번 경고하는데 한국어로만 답해줘.",
-    chunkLimit: 3,
+    model: "",
+    temperature: 0,
+    maxchunkSize: 0,
+    system: "",
+    chunkLimit: 0,
   });
+  const userId = useUserId();
 
   useEffect(() => {
     getDocuments();
@@ -45,16 +46,16 @@ const KnowledgeBase = () => {
   const getSettings = async () => {
     try {
       const response = await proxy.get(`/settings/${userId}`);
-      console.log(response.data);
+      setSettings(response.data);
     } catch (err) {
       console.error(err);
     }
   };
 
   const saveSettings = async () => {
+    console.log(settings);
     try {
       const response = await proxy.put(`/settings/${userId}`, settings);
-      console.log(response.data);
     } catch (err) {
       console.error(err);
     }

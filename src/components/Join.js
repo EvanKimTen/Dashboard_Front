@@ -2,40 +2,39 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useHistory } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import axios from "axios";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
+const proxy = axios.create({
+  baseURL: "http://localhost:5001"
+})
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+export default function Join() {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [APIKey, setApiKey] = useState('');
+  const [projectID, setProjectID] = useState('');
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const username = data.get('username');
-    const password = data.get('password');
-    const API_KEY = data.get('API_KEY');
-    const projectID = data.get('projectID');
-    const response = await fetch('/join', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password, projectID, API_KEY }),
+    const response = await proxy.post("/join", {
+      username,
+      password,
+      APIKey,
+      projectID,
     });
-  
-    if (response.ok) {
-      const data = await response.json();
-      // Store the authentication token (not made yet I forgot honestly)
-      localStorage.setItem('authToken', data.token);
-      useHistory.push('/login');
-    }
+    console.log(response.data);
+    navigate('/');
   };
 
   return (
@@ -65,6 +64,7 @@ export default function SignUp() {
                   id="username"
                   label="Username"
                   autoFocus
+                  onChange={(e)=>setUsername(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -76,6 +76,7 @@ export default function SignUp() {
                   type="password"
                   name="password"
                   autoComplete="New Password"
+                  onChange={(e)=>setPassword(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -86,6 +87,7 @@ export default function SignUp() {
                   label="API KEY"
                   name="API_KEY"
                   autoComplete="API_KEY"
+                  onChange={(e)=>setApiKey(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -96,6 +98,7 @@ export default function SignUp() {
                   label="Project ID"
                   id="projectID"
                   autoComplete="Project ID"
+                  onChange={(e)=>setProjectID(e.target.value)}
                 />
               </Grid>
               
@@ -110,9 +113,9 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="./SignIn.js" variant="body2">
-                  Already have an account? Sign in
-                </Link>
+                <NavLink to="/" variant="body2">
+                  {"Already have an account? Sign in"}
+                </NavLink>
               </Grid>
             </Grid>
           </Box>

@@ -4,18 +4,21 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 // TODO remove, this demo shouldn't need to reset the theme.
-import { useHistory } from 'react-router-dom'
+import { useNavigate, NavLink } from 'react-router-dom';
+
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+export default function Login() {
+
+  const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -33,7 +36,7 @@ export default function SignIn() {
       const data = await response.json();
       // Store the authentication token (not made yet I forgot honestly)
       localStorage.setItem('authToken', data.token);
-      useHistory.push('/');
+      navigate('/analytics');
     }
   };
   
@@ -90,9 +93,9 @@ export default function SignIn() {
                 </Link> */}
               </Grid>
               <Grid item>
-                <Link href="./SignUp.js" variant="body2">
+                <NavLink to="/join" variant="body2">
                   {"Don't have an account? Sign Up Here"}
-                </Link>
+                </NavLink>
               </Grid>
             </Grid>
           </Box>

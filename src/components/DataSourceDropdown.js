@@ -22,6 +22,7 @@ export const DataSourceDropdown = (props) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [tag, setTag] = useState("");
   const open = Boolean(anchorEl);
+  const { getDocuments, userId } = props;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -38,11 +39,11 @@ export const DataSourceDropdown = (props) => {
 
   const handleUrlUpload = async () => {
     try {
-      const response = await proxy.post("/", {
+      const response = await proxy.post(`/${userId}`, {
         url: input,
       });
       handleClose();
-      props.getDocuments();
+      getDocuments();
       console.log(response);
     } catch (err) {
       console.error(err);
@@ -59,9 +60,9 @@ export const DataSourceDropdown = (props) => {
           "content-type": "multipart/form-data",
         },
       };
-      const response = await proxy.post("/file", formData, config);
+      const response = await proxy.post(`/file/${userId}`, formData, config);
       setAnchorEl(null);
-      props.getDocuments();
+      getDocuments();
       console.log(response.data);
     } catch (err) {
       console.error(err);

@@ -30,7 +30,7 @@ export const AiPreview = (props) => {
   const [response, setResponse] = useState("");
   const [sources, setSources] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { settings } = props;
+  const { settings, userId } = props;
 
   const handleChange = (event) => {
     setQuestion(event.target.value);
@@ -48,7 +48,7 @@ export const AiPreview = (props) => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const response = await proxy.post("/preview", {
+      const response = await proxy.post(`/preview/${userId}`, {
         question,
         settings,
       });

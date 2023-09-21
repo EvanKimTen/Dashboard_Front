@@ -220,6 +220,7 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = useState("updatedAt");
   const [selected, setSelected] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const { documents, setDocuments, getDocuments, userId } = props;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -230,9 +231,7 @@ export default function EnhancedTable(props) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = props.documents.map(
-        (document) => document.documentID
-      );
+      const newSelected = documents.map((document) => document.documentID);
       setSelected(newSelected);
       console.log(newSelected);
       return;
@@ -274,9 +273,9 @@ export default function EnhancedTable(props) {
   const handleDelete = async () => {
     selected.map(async (document) => {
       try {
-        const response = await proxy.delete(`/${document}`);
+        const response = await proxy.delete(`/${document}/${userId}`);
         console.log(response.data);
-        props.getDocuments();
+        getDocuments();
         setSelected([]);
         handleClose();
       } catch (err) {
@@ -286,14 +285,14 @@ export default function EnhancedTable(props) {
   };
 
   const visibleRows = useMemo(
-    () => stableSort(props.documents, getComparator(order, orderBy)),
-    [order, orderBy, props.documents]
+    () => stableSort(documents, getComparator(order, orderBy)),
+    [order, orderBy, documents]
   );
 
   return (
     <div>
       <Box sx={{ width: "100%" }}>
-        <Paper sx={{ width: "100%", mb: 2 }}>
+        <Paper sx={{ width: "100%" }}>
           <EnhancedTableToolbar
             numSelected={selected.length}
             onDeleteClick={onDeleteClick}
@@ -306,7 +305,7 @@ export default function EnhancedTable(props) {
                 orderBy={orderBy}
                 onSelectAllClick={handleSelectAllClick}
                 onRequestSort={handleRequestSort}
-                rowCount={props.documents.length}
+                rowCount={documents.length}
               />
               <TableBody>
                 {visibleRows.map((document, index) => {
@@ -340,14 +339,23 @@ export default function EnhancedTable(props) {
                         id={labelId}
                         scope="row"
                         padding="none"
-                        sx={{ width: "33rem" }}
+                        sx={{
+                          width: "33rem",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "40vw",
+                          paddingRight: "4rem",
+                        }}
                       >
-                        {document.data.name.substring(0, 48)}...
+                        {document.data.name}
                       </TableCell>
                       <TableCell
                         align="left"
                         padding="none"
-                        style={{ textTransform: "uppercase" }}
+                        style={{
+                          textTransform: "uppercase",
+                        }}
                       >
                         {document.data.type}
                       </TableCell>

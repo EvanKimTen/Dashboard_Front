@@ -12,6 +12,7 @@ import TopIntents from "../components/TopIntents";
 import Understood from "../components/Understood";
 import Users from "../components/Users";
 import Header from "../components/Header";
+import { useUserId } from "../hooks/useUserId";
 
 const Analytics = () => {
   const [interactionsData, setInteractionsData] = useState([]);
@@ -21,6 +22,8 @@ const Analytics = () => {
   const [sessionsData, setSessionsData] = useState([]);
   const [totalSessionsCount, setTotalSessionsCount] = useState(0);
   const [selectedTimeframe, setSelectedTimeframe] = useState("last7Days");
+
+  const userId = useUserId();
 
   const handleTimeframeChange = (event) => {
     setSelectedTimeframe(event.target.value);
@@ -37,7 +40,7 @@ const Analytics = () => {
   const fetchDataForDate = async (date, endpoint) => {
     try {
       const response = await axios.post(
-        `http://localhost:5001/api/proxy/${endpoint}`,
+        `http://localhost:5001/api/proxy/${endpoint}/${userId}`,
         {
           query: [
             {

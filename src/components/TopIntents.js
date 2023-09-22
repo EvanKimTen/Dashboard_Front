@@ -1,15 +1,18 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ResponsiveContainer } from 'recharts';
+import { useUserId } from "../hooks/useUserId";
 
 const TopIntents = ( {selectedTimeframe} ) => {
 
     const [barData, setBarData] = useState([])
     const colors = ['#84d899', '#8884d8', '#e37575', '#A0C1D1', '#5A7D7C'];
+
+    const userId = useUserId();
     
     const getData = async (startDate, endDate) => {
       try {
-        const response = await axios.post(`http://localhost:5001/api/proxy/top_intents`, {
+        const response = await axios.post(`http://localhost:5001/api/proxy/top_intents/${userId}`, {
           query: [
             {
               filter: {

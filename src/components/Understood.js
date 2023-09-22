@@ -1,13 +1,15 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react';
 import { Cell, Legend, Pie, PieChart, Tooltip, ResponsiveContainer } from 'recharts';
+import { useUserId } from "../hooks/useUserId";
 
 const Understood = ( {selectedTimeframe} ) => {
     const [pieData, setPieData] = useState([]);
+    const userId = useUserId();
 
     const getData = async (startDate, endDate) => {
         try {
-          const response = await axios.post('http://localhost:5001/api/proxy/understood_messages', {
+          const response = await axios.post(`http://localhost:5001/api/proxy/understood_messages/${userId}`, {
             query: [
               {
                 filter: {

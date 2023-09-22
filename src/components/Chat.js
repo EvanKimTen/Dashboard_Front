@@ -3,14 +3,17 @@ import { MainContainer, ChatContainer, MessageList, Message, Sidebar,Conversatio
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useUserId } from "../hooks/useUserId";
 
 const Chat = ({ transcriptID }) => {
     const [transcriptDialog, setTranscriptDialog] = useState([])
     const [selectedTranscriptID, setSelectedTranscriptID] = useState('');
 
+    const userId = useUserId();
+
     const getDialog = async () => {
         try {
-          const response = await axios.post(`http://localhost:5001/api/proxy/dialog`, {
+          const response = await axios.post(`http://localhost:5001/api/proxy/dialog/${userId}`, {
             query: [
               {
                 filter: {

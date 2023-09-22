@@ -334,22 +334,25 @@ export default function EnhancedTable(props) {
                           }}
                         />
                       </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                        sx={{
-                          width: "33rem",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          maxWidth: "40vw",
-                          paddingRight: "4rem",
-                        }}
-                      >
-                        {document.data.name}
-                      </TableCell>
+                      <Tooltip title={document.data.name} placement="top">
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                          sx={{
+                            width: "33rem",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            maxWidth: "40vw",
+                            paddingRight: "4rem",
+                          }}
+                        >
+                          {document.data.name}
+                        </TableCell>
+                      </Tooltip>
+
                       <TableCell
                         align="left"
                         padding="none"

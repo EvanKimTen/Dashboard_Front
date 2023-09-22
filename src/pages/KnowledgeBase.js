@@ -3,6 +3,9 @@ import axios from "axios";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import FindInPageIcon from "@mui/icons-material/FindInPage";
+import IconButton from "@mui/material/IconButton";
+import ClearIcon from "@mui/icons-material/Clear";
+import CloseIcon from "@mui/icons-material/Close";
 
 import EnhancedTable from "../components/EnhancedTable";
 import { DataSourceDropdown } from "../components/DataSourceDropdown";
@@ -64,14 +67,12 @@ const KnowledgeBase = () => {
   const handleSearch = async (e) => {
     setSearch(e.target.value);
     if (e.target.value.length < 1) {
-      console.log("all");
       setViewingDocuments(documents);
     } else {
       const filteredDocuments = documents.filter((document) =>
         document.data.name.toLowerCase().includes(search.toLowerCase())
       );
       console.log(filteredDocuments);
-      console.log("filtered");
       setViewingDocuments(filteredDocuments);
     }
   };
@@ -81,7 +82,22 @@ const KnowledgeBase = () => {
       <Header name={"Knowledge Base"} />
       <TopBar>
         <SearchBar>
-          <SearchIcon />
+          {search < 1 ? (
+            <SearchIcon />
+          ) : (
+            <IconButton
+              sx={{
+                padding: 0,
+              }}
+              onClick={() => {
+                setSearch("");
+                setViewingDocuments(documents);
+              }}
+            >
+              <ClearIcon />
+            </IconButton>
+          )}
+
           <input
             type="text"
             value={search}
@@ -136,9 +152,6 @@ const TopBar = styled.div`
   padding: 1rem;
   background-color: white;
   margin-top: 3.8rem;
-  button {
-    border: 1px solid #b7c4d0;
-  }
   input {
     background-color: white;
   }

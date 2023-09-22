@@ -14,6 +14,7 @@ import {
   DialogContent,
   DialogTitle,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import MuiInput from "@mui/material/Input";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -67,9 +68,12 @@ export const AiPreview = (props) => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={() => handleOpen()}>
-        AI Preview
-      </Button>
+      <Tooltip title="Preview">
+        <Button variant="outlined" onClick={() => handleOpen()}>
+          AI Preview
+        </Button>
+      </Tooltip>
+
       <Dialog fullWidth maxWidth="sm" open={openDialog} onClose={handleClose}>
         <DialogTitle sx={{ m: 1, width: 500 }}>
           Preview Knowledge Base

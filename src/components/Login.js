@@ -36,6 +36,12 @@ export default function Login() {
     navigate("/knowledge-base");
   };
 
+  const handleLogout = () => {
+    window.localStorage.removeItem("userId");
+    // localStorage.clear();
+    navigate('/');
+  }
+  
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">

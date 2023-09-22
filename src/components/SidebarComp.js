@@ -8,6 +8,12 @@ import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import ShowChartRoundedIcon from '@mui/icons-material/ShowChartRounded';
 import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
+import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
+
+function logout() {
+  localStorage.removeItem('userId')
+  window.location.href = '/';
+}
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
@@ -15,7 +21,13 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       <div>
         <MenuItem
           active={selected === title}
-          onClick={() => setSelected(title)}
+          onClick={() => {
+            if (title === 'Log Out') {
+              logout();
+            } else {
+              setSelected(title);
+            }
+          }}
           icon={icon}
           component={<Link to={to} />}
           className="nav-icon"
@@ -86,6 +98,13 @@ const SidebarComp = () => {
               title="Knowledge Base"
               to="/knowledge-base"
               icon={<SmartToyOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Log Out"
+              to="/"
+              icon={<ExitToAppOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

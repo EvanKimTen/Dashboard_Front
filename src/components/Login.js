@@ -37,7 +37,8 @@ export default function Login() {
   };
 
   const handleLogout = () => {
-    localStorage.clear();
+    window.localStorage.removeItem("userId");
+    // localStorage.clear();
     navigate('/');
   }
   
@@ -93,9 +94,6 @@ export default function Login() {
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleLogout}>
-              Logout 
             </Button>
             <Grid container>
               <Grid item xs>

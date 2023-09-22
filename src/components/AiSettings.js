@@ -16,6 +16,7 @@ import {
   Slider,
   Grid,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 import MuiInput from "@mui/material/Input";
@@ -65,9 +66,12 @@ export const AiSettings = (props) => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={() => handleOpen()}>
-        <TuneIcon />
-      </Button>
+      <Tooltip title="Settings">
+        <Button variant="outlined" onClick={() => handleOpen()}>
+          <TuneIcon />
+        </Button>
+      </Tooltip>
+
       <Dialog fullWidth maxWidth="xs" open={openDialog} onClose={handleClose}>
         <DialogTitle sx={{ m: 1, width: 380 }}>
           Knowledge Base Settings

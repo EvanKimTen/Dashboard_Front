@@ -93,32 +93,35 @@ export const DataSourceDropdown = (props) => {
           width: 300,
         }}
       >
-        <MenuItem onClick={() => handleUrlClick("url")}>URL(s)</MenuItem>
+        <MenuItem onClick={() => handleUrlClick("url")}>URL</MenuItem>
         <MenuItem onClick={() => handleUrlClick("sitemap")}>Sitemap</MenuItem>
-        <MenuItem component="label">
+        <SMenuItem component="label">
           Text
           <VisuallyHiddenInput
             type="file"
             accept=".txt"
             onChange={handleFileUpload}
           />
-        </MenuItem>
-        <MenuItem component="label">
+          <p>10mb max</p>
+        </SMenuItem>
+        <SMenuItem component="label">
           PDF
           <VisuallyHiddenInput
             type="file"
             accept=".pdf"
             onChange={handleFileUpload}
           />
-        </MenuItem>
-        <MenuItem component="label">
+          <p>10mb max</p>
+        </SMenuItem>
+        <SMenuItem component="label">
           DOC
           <VisuallyHiddenInput
             type="file"
             accept=".doc, .docx"
             onChange={handleFileUpload}
           />
-        </MenuItem>
+          <p>10mb max</p>
+        </SMenuItem>
       </Menu>
 
       <Dialog fullWidth maxWidth="sm" open={openDialog} onClose={handleClose}>
@@ -164,4 +167,12 @@ const VisuallyHiddenInput = styled("input")`
   left: 0;
   white-space: nowrap;
   width: 1px;
+`;
+
+const SMenuItem = styled(MenuItem)`
+  p {
+    color: gray;
+    font-size: 12px;
+    margin-left: 15px;
+  }
 `;

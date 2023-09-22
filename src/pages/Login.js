@@ -33,15 +33,15 @@ export default function Login() {
     });
     const { userId } = response.data;
     window.localStorage.setItem("userId", userId);
-    navigate("/knowledge-base");
+    navigate("/analytics");
   };
 
   const handleLogout = () => {
     window.localStorage.removeItem("userId");
     // localStorage.clear();
-    navigate('/');
-  }
-  
+    navigate("/");
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">

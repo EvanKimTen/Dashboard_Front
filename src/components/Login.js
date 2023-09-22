@@ -1,38 +1,39 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 // TODO remove, this demo shouldn't need to reset the theme.
-import { useNavigate, NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { useNavigate, NavLink } from "react-router-dom";
+import { useState } from "react";
 import axios from "axios";
 
 const proxy = axios.create({
-  baseURL: "http://localhost:5001"
-})
+  baseURL: "http://localhost:5001",
+});
 
 const defaultTheme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await proxy.post('/', {
+    const response = await proxy.post("/", {
       username,
       password,
     });
-    console.log(response.data);
-    navigate('/analytics');
+    const { userId } = response.data;
+    window.localStorage.setItem("userId", userId);
+    navigate("/knowledge-base");
   };
 
   const handleLogout = () => {
@@ -47,15 +48,20 @@ export default function Login() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Typography component="h1" variant="h5">
             Log In
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
@@ -64,7 +70,7 @@ export default function Login() {
               label="Username"
               name="username"
               autoFocus
-              onChange={(e)=>setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -74,7 +80,7 @@ export default function Login() {
               label="Password"
               type="password"
               id="password"
-              onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

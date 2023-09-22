@@ -10,27 +10,25 @@ import Login from "./components/Login";
 import Join from "./components/Join";
 
 const App = () => {
-
   return (
     <>
-    <CssBaseline />
-    <div className="App">
-      <SidebarComp />
-      <main className="content whole">
-        <Routes>
-          {/*public routes*/}
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/knowledge-base" element={<KnowledgeBase />} />
-          <Route path="/transcript" element={<Transcript />} />
-          <Route path="/" element={<Login />} />
-          <Route path="/join" element={<Join />} />
-          {/*protected routes*/}
-        </Routes>
-      </main>
-    </div>
+      <CssBaseline />
+      <div className="App">
+        <SidebarComp />
+        <main className="content whole">
+          <Routes>
+            {/*public routes*/}
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/knowledge-base" element={<KnowledgeBase />} />
+            <Route path="/transcript" element={<Transcript />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/join" element={<Join />} />
+            {/*protected routes*/}
+          </Routes>
+        </main>
+      </div>
     </>
   );
 };
 
 export default App;
-

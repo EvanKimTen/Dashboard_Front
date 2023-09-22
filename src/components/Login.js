@@ -34,6 +34,11 @@ export default function Login() {
     console.log(response.data);
     navigate('/analytics');
   };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/');
+  }
   
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -82,6 +87,9 @@ export default function Login() {
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleLogout}>
+              Logout 
             </Button>
             <Grid container>
               <Grid item xs>
